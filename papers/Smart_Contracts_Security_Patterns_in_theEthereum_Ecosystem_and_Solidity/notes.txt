@@ -1,0 +1,17 @@
+possible nice quotes: 
+    Ethereum is major blockchain ecostystem [page 1]
+    explanation why smart contracts run exactly as planned [page 1] (taken from Ethereum whitepaper)
+    definition of mining/minors [page 2]
+    reason why we need gas [page 2]
+    why we can not execte computation heavy stuff on chain [page 3]
+
+questions: 
+    what is a stack-based language
+    optcode?
+    who can commnicate with a smart contract?
+
+notes: 
+    smart contract has contract balance
+    when events are called, they are stored in logs
+    they store only hash on-chain (like we might do)
+    various patterns (also pattern that forces to wait and emergency stop)

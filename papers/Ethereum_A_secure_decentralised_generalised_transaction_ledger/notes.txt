@@ -1,0 +1,9 @@
+just read the first 3 pages!
+
+nice quote in abstract/beginning: 
+    blockchain/smart-contracts as app on decentralised, but singelton computer resource
+        singelton machine with shared-state
+    blockchain is incoruptable and transparent by definition
+
+question: 
+    how does GHOST protocol work?

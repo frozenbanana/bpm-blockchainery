@@ -1,0 +1,50 @@
+there are blockchain-as-a-service von MS Azure und IBM
+escrow: 
+	a smart contract
+	holds funds, until obligation is reached
+
+new transaction processing: 
+	signed transaction send to node in blockchain network 
+	if transaction is valid & unknown to node, then node will propagate it
+	if the new tx reaches a miner, it might be append to the next block
+
+categories of consensus protocol:
+	proof-of-work
+	proof-of-stake
+
+decentralization: 
+	fully centralized (e.g. banking system)
+	fully decentralized/permission-less (e.g. Bitcoin)
+
+permission (e.g. Ripple):
+	chain with rbac
+
+verification: 
+	third party, that is trusted to provide info about 
+	external world (e.g. oracle)
+	centralized verifier may become single point of failure
+
+validator:
+	miner
+
+data storage: 
+	actual data often stored off-chain
+	on-chain just the hash of the data
+
+proof-of-stake
+	alternative to proof-of-work
+	decides on which block will be appended next 
+
+What are sybil attacks? 
+	generate pseudo identities 
+	gain influence by having multiple identities (e.g. by changing
+		voting outcomes)
+	how vulnerable a system is to this attack depends on how 
+		expensive it is to generate new identities
+	
+
+
+
+
+
+

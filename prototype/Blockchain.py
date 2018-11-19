@@ -8,6 +8,7 @@ class storage_on_chain:
         self.storage = {}
         self.users = {}
 
+
     def add_to_storage(self, key, val):
         self.storage[key] = val
 
