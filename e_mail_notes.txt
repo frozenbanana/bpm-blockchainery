@@ -1,0 +1,50 @@
+Smart contracts are becoming more and more powerful and important.
+
+One area of interest is the use of SCs in inter-organizational processes (choreographies).
+
+This includes business contracts or other agreements between different parties.
+
+However, these types of real-world contracts have certain constraints for visibility and privacy:
+
+businesses might not be willing to publicly disclose their contracts’ terms,
+
+participants may not want everyone to know who they are dealing with,
+
+and the actual content of contracts might be confidential.
+
+These constraints have not been adequately tackled yet on both a conceptual as well as a technical level.
+
+Research Question: How can we realize real-world visibility and privacy constraints with smart contracts?
+
+
+
+
+Investigative Questions:
+
+Which constraints and real-world use cases are there?
+
+Are Hyperledger Fabric, Corda or Quorum able to implement specific constraints?
+
+Hyperledger fabric: 
+permission based consensus blockchain
+has chaincode
+Fabric can run JS and Go on chain
+Hyperledger seems to have fairly few nodes and is for industry
+few and powerful nodes?	
+
+
+Can we use Parity private contracts?
+
+We do not quite understand how parity works
+How does the contract know that the state-change was actually signed? 
+
+
+What is the state-of-the-art regarding zkSNARKs, homomorphic encryption, for example on Ethereum?
+
+Homomorphic encryption would use to much computational power
+there is a client for zkSNARKS
+
+
+How can we use voting mechanisms to propagate valid state changes without disclosing the state?
+
+We might also use ring signatures for that voting process
