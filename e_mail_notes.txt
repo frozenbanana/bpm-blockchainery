@@ -23,6 +23,16 @@ Investigative Questions:
 
 Which constraints and real-world use cases are there?
 
+contraints: 
+limited computational power of smart contract
+limited financial power to execute a smart contract
+We do not trust the other participants
+limited knowledge about techology
+we do not trust the other users
+we do not trust a central authority
+
+
+
 Are Hyperledger Fabric, Corda or Quorum able to implement specific constraints?
 
 Hyperledger fabric: 
@@ -31,6 +41,9 @@ has chaincode
 Fabric can run JS and Go on chain
 Hyperledger seems to have fairly few nodes and is for industry
 few and powerful nodes?	
+Hyperledger sawooth does not seem to have ACTIVE choreographies (no enforcement)
+So many projects... :(
+hyperledger composer: A tool for collaboration
 
 
 Can we use Parity private contracts?
@@ -39,12 +52,26 @@ We do not quite understand how parity works
 How does the contract know that the state-change was actually signed? 
 
 
+
 What is the state-of-the-art regarding zkSNARKs, homomorphic encryption, for example on Ethereum?
 
 Homomorphic encryption would use to much computational power
 there is a client for zkSNARKS
+zkSNARKs also used in ZCash
+	seems to be new, because most wallets do not support z-addresses
+	uses Zerocash protocol
+	is computationally expensive
+	takes up a lot of memory to generate
 
 
 How can we use voting mechanisms to propagate valid state changes without disclosing the state?
 
 We might also use ring signatures for that voting process
+Can we just have one ring with all participants?
+Only people who are activly involved in a tranaction know what is going on
+everyone else just signes it
+This way we only have to store one public key on chain
+also this could solve who is sending what
+we do not have to save the addresses of the senders anymore (just the ring signature)
+we can just send any message to the smart contract on chain
+if the message was signed with the ring signature, we know that everything is good
