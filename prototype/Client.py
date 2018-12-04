@@ -6,15 +6,15 @@ class client:
     """
     simulate a client
     """
-    def __init__(self, Chain):
+    def __init__(self, name): #, Chain):
+        self.name = name
         self.private_key, self.public_key = client.get_keys()
-        self.master = False
         self.sync_key = False
-        self.chain = Chain
+        # self.chain = Chain
         self.id = uuid.uuid4()
-        self.post_to_chain(self.id, self.public_key)
-        self.chain.add_user(self.id, self.public_key)
-        self.all_users = {}
+        # self.post_to_chain(self.id, self.public_key)
+        # self.chain.add_user(self.id, self.public_key)
+        # self.all_users = {}
     
     @staticmethod
     def get_sync_key():
@@ -31,11 +31,8 @@ class client:
     
 
     def __repr__(self):
-        return "{}".format(self.public_key)
+        return "This is The client {} with the public key {}".format(self.name, self.public_key)
 
-    def make_master(self):
-        self.master = True
-        self.sync_key = client.get_sync_key()
 
     def encrypt_synch(self, msg):
         if not self.sync_key:
@@ -54,15 +51,19 @@ class client:
         return int(result)
 
     def post_to_chain(self, key, val):
+        raise NotImplementedError
         self.chain.add_to_storage(key, val)
 
     def get_from_chain(self, key):
+        raise NotImplementedError
         return self.chain[key]
 
     def get_all_users(self):
+        raise NotImplementedError
         return self.chain.users
 
     def post_sync_key(self):
+        raise NotImplementedError
         if self.master:
             self.all_users = self.get_all_users()
             for public_key in self.all_users.values():

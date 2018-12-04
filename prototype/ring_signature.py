@@ -1,5 +1,9 @@
-import os, hashlib, random, Crypto.PublicKey.RSA
+import os
+import hashlib
+import random
+import Crypto.PublicKey.RSA
 import sys
+
 
 class ring:
     def __init__(self, k, L=1024):
@@ -8,34 +12,41 @@ class ring:
         self.n = len(k)
         self.q = 1 << (L - 1)
 
+    @staticmethod
+    def rn(_):
+        return Crypto.PublicKey.RSA.generate(1024, os.urandom)
+
+
     def sign(self, m, z):
         self.permut(m)
         s = [None] * self.n
         u = random.randint(0, self.q)
-        c = v = self.E(u) 
+        c = v = self.E(u)
         for i in (range(z+1, self.n) + range(z)):
             s[i] = random.randint(0, self.q)
             e = self.g(s[i], self.k[i].e, self.k[i].n)
-            v = self.E(v^e) 
+            v = self.E(v ^ e)
             if (i+1) % self.n == 0:
                 c = v
-        s[z] = self.g(v^u, self.k[z].d, self.k[z].n)
+        s[z] = self.g(v ^ u, self.k[z].d, self.k[z].n)
         return [c] + s
 
     def verify(self, m, X):
         self.permut(m)
+
         def _f(i):
             return self.g(X[i+1], self.k[i].e, self.k[i].n)
         y = map(_f, range(len(X)-1))
+
         def _g(x, i):
-            return self.E(x^y[i])
+            return self.E(x ^ y[i])
         r = reduce(_g, range(self.n), X[0])
         return r == X[0]
 
     def permut(self, m):
-        self.p = int(hashlib.sha1('%s' % m).hexdigest(),16)
+        self.p = int(hashlib.sha1('%s' % m).hexdigest(), 16)
 
-    def E(self, x): 
+    def E(self, x):
         msg = '%s%s' % (x, self.p)
         return int(hashlib.sha1(msg).hexdigest(), 16)
 
@@ -46,4 +57,3 @@ class ring:
         else:
             rslt = x
         return rslt
-
