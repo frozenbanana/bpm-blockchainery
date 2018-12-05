@@ -43,9 +43,9 @@ class client:
         make client be able to receive messages
         """
         if not self.inbox:
-            self.inbox = os.path.join(os.path.dirname(
-                os.path.abspath(__file__)), self.name + '.txt')
-        #with open(self.inbox, 'w') as f:
+            self.inbox = os.path.join(*[os.path.dirname(
+                os.path.abspath(__file__)), 'communication', self.name + '.txt'])
+        # with open(self.inbox, 'w') as f:
          #   pass
 
     def make_receive_message(self, callback, frequency):
@@ -83,7 +83,7 @@ class client:
         success = False
         while not success:
             try:
-                with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), receiver + '.txt'), 'w') as f:
+                with open(os.path.join(*[os.path.dirname(os.path.abspath(__file__)),  'communication', receiver + '.txt']), 'w') as f:
                     f.write(message)
                 success = True
             except:

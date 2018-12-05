@@ -22,7 +22,8 @@ def main(args, possible_roles):
     try:
         cli = client(args.role)
     except Exception as e:
-        print('client creation failed with exception {}. Arguments were {}'.format(e.message, args))
+        print('client creation failed with exception {}. Arguments were {}'.format(
+            e.message, args))
 
     cli.make_receiver()
 
@@ -32,8 +33,8 @@ def main(args, possible_roles):
         cli.send_to('seller', 'hi from buyer')
     else:
         cli.send_to('buyer', 'hi from seller')
-    
-    while True: 
+
+    while True:
         time.sleep(1)
 
     print("created the client {}".format(cli.name))
@@ -55,7 +56,6 @@ def main(args, possible_roles):
             print("Signature verified:", r.verify(message, s1))
 
     #    assert r.verify(msg1, s1) and r.verify(msg2, s2) and not r.verify(msg1, s2)
-    
 
 
 if __name__ == "__main__":
