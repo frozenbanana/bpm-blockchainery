@@ -57,6 +57,10 @@ Narayanan, S., Jayaraman, V., Luo, Y., Swaminathan, J.M.: The antecedents of
   performance. Journal of Operations Management  \textbf{29}(1-2),  3--16
   (2011)
 
+\bibitem{noether2016ring}
+Noether, S., Mackenzie, A., et~al.: Ring confidential transactions. Ledger
+  \textbf{1},  1--18 (2016)
+
 \bibitem{orlandi2011multiparty}
 Orlandi, C.: Is multiparty computation any good in practice? In: Acoustics,
   Speech and Signal Processing (ICASSP), 2011 IEEE International Conference on.
@@ -70,6 +74,11 @@ Panayides, P.M., Lun, Y.V.: The impact of trust on innovativeness and supply
 \bibitem{paverd2014modelling}
 Paverd, A., Martin, A., Brown, I.: Modelling and automatically analysing
   privacy properties for honest-but-curious adversaries. Tech. Rep.  (2014)
+
+\bibitem{rivest2001leak}
+Rivest, R.L., Shamir, A., Tauman, Y.: How to leak a secret. In: International
+  Conference on the Theory and Application of Cryptology and Information
+  Security. pp. 552--565. Springer (2001)
 
 \bibitem{weber2016untrusted}
 Weber, I., Xu, X., Riveret, R., Governatori, G., Ponomarev, A., Mendling, J.:

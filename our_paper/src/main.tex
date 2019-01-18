@@ -59,7 +59,7 @@ Integrating business processes was found to increase the performance of business
 
 Blockchain \cite{nakamoto2008bitcoin}, invented by Saitoshi Nakamoto as a mean to solve the problem of double-spending in crypto-currencies, is a chain of digitally signed blocks of data. To sign a block, the hash of a block is calculated by applying a hash-function to the data of the block and the hash of the previous block. Nodes in the network have to agree on which block to include next, which is why there has to be a consensus-mechanism (e.g. proof of work). Because removing or altering blocks is very computationally expensive, there is no central authority needed to watch over the validity of submitted data. This is why blockchains can be used to serve as distributed, immutable data stores.
 
-These capabilities (storing data immutably and having consent on a single state without the need of a central authority) are greatly increased by networks like Ethereum. The technology enables developers to write smart contracts, Turing complete programs that are executed on the blockchain \cite{buterin2014next}.
+These capabilities (storing data immutably and having consent on a single state without the need of a central authority) are greatly increased by networks like Ethereum. The technology enables developers to write a smart contract (sc), a Turing complete program that is executed on the blockchain \cite{buterin2014next}.
 
 In our opinion, smart contracts are ideal for business process execution, since the entities collaborating with each other now have a single source of truth. Also, since the stored data is immutable, blockchains are feasible to serve as audit trails \textbf{source needed?}.
 
@@ -147,9 +147,15 @@ For the scope of this publication we define an Active Choreography as a decentra
 \end{itemize}
 
 
-Our implementation aims to provide privacy for all three layers. We considered multiple other technologies that are worth mentioning and might be used to protect one or more layers (layers indicated in brackets).
+Our implementation aims to provide privacy for all three layers. We considered multiple other technologies that are worth mentioning and might be used to protect one or more layers. 
 
-One of them is \textit{obfuscation}. This is a technology that "aims to make a computer program 'unintelligible' while preserving its functionality" \cite{garg2016candidate}. If we could make use of it, it might be possible to hide the functionality of our business process on a public blockchain in "plain sight" (model layer). Since it was shown in \cite{barak2001possibility,barak2012possibility} that there were a set of functions that are impossible to obfuscate, the idea of indistinguishable obfuscation was introduced. This is a weaker constraint, guaranteeing that it is impossible to distinguish two equivalent programs have been obfuscated. These ideas seem to be very powerful, but come with a big drawback: According to \cite{banescu2015idea}, to even generate an obfuscation of a 2-bit multiplication circuit would take about $10^{27}$ years on a 2,6 GHz CPU. Obfuscation at its current state is thus not feasible. 
+One of them is \textit{obfuscation}. This is a technology that "aims to make a computer program 'unintelligible' while preserving its functionality" \cite{garg2016candidate}. If we could make use of it, it might be possible to hide the functionality of our business process on a public blockchain in "plain sight" (model layer). Since it was shown in \cite{barak2001possibility,barak2012possibility} that there were a set of functions that are impossible to obfuscate, the idea of indistinguishable obfuscation was introduced. This is a weaker constraint, guaranteeing that it is impossible to distinguish two equivalent programs have been obfuscated. These ideas seem to be very powerful, but come with a big drawback: Being extremely computationally expensive \cite{banescu2015idea}.
+\comment{
+According to \cite{banescu2015idea}, to even generate an obfuscation of a 2-bit multiplication circuit would take about $10^{27}$ years on a 2,6 GHz CPU.} 
+
+
+\textit{Homomorphic encryption} might be used to do calculations on encrypted values \textbf{source}. This might be useful in the context of processing communication with the sc, without the having to reveal the actual messages (content layer). Similar to obfusaction, homomorphic encryption suffers from heavy computational overhead \textbf{source}.
+
 
 A further technology considered is \textit{secure multi-party computation (SMPC)} \cite{orlandi2011multiparty}. With SMPC, there are are multiple parties involved in computing the output of a function. These parties do not have to trust each other. They thus need a protocol that makes sure that the output is correct and that cheating participants will not be able to learn anything about the input of the honest parties. An algorithm with these properties could provide us with a way to compute the current state of our business logic without letting some parties know the input that triggered that state (content-layer). 
 
@@ -162,6 +168,11 @@ A technology already in use in blockchain applications are zero-knowledge Succin
 \comment{However we do not see how we could use zk-SNARKs to keep the model-layer secret. This might be a field of future work and if feasible, might be a better solution than the one we are providing right now.}
 
 
+Already applied in the context of blockchain applications (e.g. in Monero \cite{noether2016ring}) are \textit{Ring Signatures}. This is a signature created by multiple signers. It can be used to verify that a message was send by one of the signers, without revealing who in the group was the sender. For this the sender "does not need the knowledge, consent, or assistance" anyone else in the group  \cite{rivest2001leak}. 
+If applied in the similar way as in Monero, they might be useful to protect the identity of the collaborating entities(communication layer) and possibility the exchanged messages (content layer).  
+
+
+An attentive reader 
 
 
 \section{out of scope things}
