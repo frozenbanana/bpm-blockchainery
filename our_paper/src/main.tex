@@ -102,8 +102,6 @@ Our motivation can be summarized in the following statements: \ber{a} There are 
 }
 
 
-
-
 Throughout this publication we will try to present our thoughts in more concrete fashion by applying them to the example shown in figure \ref{fig:simple_bpmn}. Here the parties are \ber{a} collaborating without trust (\ber{b} and \ber{c}). They also have an urge to keep as much as possible about their collaboration secret (\ber{d}, \ber{e} and \ber{f}). An example for \ber{g} would be that the \textit{Delivery Boy} should not know anything about the collaboration between \textit{Wholesaler} and \textit{Pizza Place}, even though he is part of the overall business process. 
 
 \comment{
@@ -148,16 +146,20 @@ For the scope of this publication we define an Active Choreography as a decentra
     \item partiy.io. Also does secret messages. Has a private contract in the smart contract. We are better, because we can hide content from each other (concept of circles). Do a picture with where you are comparing the architecture (siehe mein colledge block)
 \end{itemize}
 
-This section aims to give a quick overview of technologies and applications that we took into consideration when implementing this prototype. We also indicated which layer might be influenced by the respective approach. 
 
-One of them is \textit{obfuscation}, which we could use to hide the model (our business process). This is a technology that "aims to make a computer program 'unintelligible' while preserving its functionality" \cite{garg2016candidate}. If we could make use of it, it might be possible to hide the functionality of our business
-process on a public blockchain in "plain sight". Since it was shown in \cite{barak2001possibility,barak2012possibility} that there were a set of functions that are impossible to obfuscate, the idea of indistinguishable obfuscation was
-introduced. This is a weaker constraint, guaranteeing that it is impossible to distinguish two equivalent programs have
-been obfuscated. These ideas seem to be very powerful, but come with a big drawback: According to \cite{banescu2015idea}, to even generate an obfuscation of a 2-bit multiplication circuit would take about $10^{27}$ years on a 2,6 GHz CPU. Obfuscation at its current state is thus not feasible. 
+Our implementation aims to provide privacy for all three layers. We considered multiple other technologies that are worth mentioning and might be used to protect one or more layers (layers indicated in brackets).
 
-Another technology aiming to increase privacy in distributed applications is \textit{secure multi-party computation (SMPC)} \cite{orlandi2011multiparty}. With SMPC, there are are multiple parties involved in computing the output of a function, without having to trust each other. They thus need a protocol that makes sure that the output is correct and that cheating participants will not be able to learn anything about the input of the honest parties. An algorithm with these properties could provide us with a way to compute the current state of our business logic without letting some parties know the input that triggered that state (content-layer). \textbf{Inefficient \textbf{SOURCE?}. Why did we not use this? -> model layer}
+One of them is \textit{obfuscation}. This is a technology that "aims to make a computer program 'unintelligible' while preserving its functionality" \cite{garg2016candidate}. If we could make use of it, it might be possible to hide the functionality of our business process on a public blockchain in "plain sight" (model layer). Since it was shown in \cite{barak2001possibility,barak2012possibility} that there were a set of functions that are impossible to obfuscate, the idea of indistinguishable obfuscation was introduced. This is a weaker constraint, guaranteeing that it is impossible to distinguish two equivalent programs have been obfuscated. These ideas seem to be very powerful, but come with a big drawback: According to \cite{banescu2015idea}, to even generate an obfuscation of a 2-bit multiplication circuit would take about $10^{27}$ years on a 2,6 GHz CPU. Obfuscation at its current state is thus not feasible. 
 
-A technology already in use in blockchain applications are zero-knowledge Succinct Non-interactive ARguments of Knowledge (zk-SNARKs). Applications using this are e.g. Zerocoin which aims to provide fully anonymous currency transactions \cite{miers2013zerocoin}. zk-SNARKS provide the possibility to have an untrusted prover very a statement made by a different party without that party having to reveal their statement \cite{ben2013snarks}. It furthermore does so in a non-interactive manner. If we think of our model as a state-machine, we might use zk-SNARKs to prove that a state-change is valid without actually communicating the respective message(s) (message- and content-layer). However we do not see how we could use zk-SNARKs to keep the model-layer secret. This might be a field of future work and if feasible, might be a better solution than the one we are providing right now. 
+A further technology considered is \textit{secure multi-party computation (SMPC)} \cite{orlandi2011multiparty}. With SMPC, there are are multiple parties involved in computing the output of a function. These parties do not have to trust each other. They thus need a protocol that makes sure that the output is correct and that cheating participants will not be able to learn anything about the input of the honest parties. An algorithm with these properties could provide us with a way to compute the current state of our business logic without letting some parties know the input that triggered that state (content-layer). 
+
+\comment{
+\textbf{Inefficient \textbf{SOURCE?}. Why did we not use this? -> model layer}
+}
+
+A technology already in use in blockchain applications are zero-knowledge Succinct Non-interactive ARguments of Knowledge (zk-SNARKs). An application using this is Zerocoin, which aims to provide "fully anonymous currency transactions" \cite{miers2013zerocoin}. zk-SNARKS provide the possibility to have an untrusted prover verify a statement made by a different party, without that party having to reveal their statement \cite{ben2013snarks}. It furthermore does so in a non-interactive manner. If we think of our business model as a state-machine, we might use zk-SNARKs to prove that a state-change is valid without actually communicating the respective message(s) (message- and content-layer).
+
+\comment{However we do not see how we could use zk-SNARKs to keep the model-layer secret. This might be a field of future work and if feasible, might be a better solution than the one we are providing right now.}
 
 
 
