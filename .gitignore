@@ -1,2 +1,5 @@
-*.pyc
-/prototype/communication
+
+*.fdb_latexmk
+*.synctex.gz
+*.aux
+*.log
