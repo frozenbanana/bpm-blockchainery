@@ -79,8 +79,6 @@ INPUT .//bpmn.png
 INPUT ./bpmn.png
 INPUT ./bpmn.png
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
-INPUT .//bpmn.png
-INPUT ./bpmn.png
 INPUT .//simple_consensus.png
 INPUT ./simple_consensus.png
 INPUT ./simple_consensus.png
