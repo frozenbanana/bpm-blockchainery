@@ -3,6 +3,10 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
+\bibitem{parity}
+Private transactions - wiki. \url{https://wiki.parity.io/Private-Transactions},
+  accessed: 2019-01-19
+
 \bibitem{van2007business}
 van~der Aalst, W.M., Reijers, H.A., Weijters, A.J., van Dongen, B.F.,
   De~Medeiros, A.A., Song, M., Verbeek, H.: Business process mining: An
@@ -42,6 +46,10 @@ Flynn, B.B., Huo, B., Zhao, X.: The impact of supply chain integration on
 Garg, S., Gentry, C., Halevi, S., Raykova, M., Sahai, A., Waters, B.: Candidate
   indistinguishability obfuscation and functional encryption for all circuits.
   SIAM Journal on Computing  \textbf{45}(3),  882--929 (2016)
+
+\bibitem{ladleif}
+Ladleif, J.: {Active Choreographies}. Master's thesis, Hasso Plattner Institut,
+  Prof.-Dr.-Helmert-Straße 2-3, 14482 Potsdam, Germany (2018)
 
 \bibitem{miers2013zerocoin}
 Miers, I., Garman, C., Green, M., Rubin, A.D.: Zerocoin: Anonymous distributed

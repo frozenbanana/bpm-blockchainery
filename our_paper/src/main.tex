@@ -47,7 +47,7 @@ University of Potsdam, Am Neuen Palais 10, 14469 Potsdam, Germany  \\
 \begin{abstract}
 
 
-Integrating business processes was found to increase the performance of businesses. This collaboration is difficult if there is a lack of trust between the participating entities and between the entities and a third party. Active choreographies solve this problem, by making business processes enforceable. However they require that the business process and all exchanged messages are public. In this paper we provide an alternative approach towards active choreographies that keep the business logic, the exchanged messages and the identity of the entities exchanging messages secret, while still being enforceable. The schema can also be used to function as an encrypted audit trail. In addition to providing the conceptual background, we also make a prototype available, which executes a simple, predefined business process.
+Integrating business processes was found to increase the performance of businesses. This collaboration is difficult if there is a lack of trust between the participating entities and between the entities and a third party. Active Choreographies solve this problem, by making business processes enforceable. However they require that the business process and all exchanged messages are public. In this paper we provide an alternative approach towards Active Choreographies that keeps the business logic, the exchanged messages and the identity of the entities exchanging messages secret, while still being enforceable. The schema can also be used to function as an encrypted audit trail. In addition to providing the conceptual background, we also make a prototype available, which executes a simple, predefined business process.
 
 
 \keywords{Business Processes  \and Active Choreographies \and Privacy.}
@@ -61,7 +61,7 @@ Blockchain \cite{nakamoto2008bitcoin}, invented by Saitoshi Nakamoto as a mean t
 
 These capabilities (storing data immutably and having consent on a single state without the need of a central authority) are greatly increased by networks like Ethereum. The technology enables developers to write a smart contract (sc), a Turing complete program that is executed on the blockchain \cite{buterin2014next}.
 
-In our opinion, smart contracts are ideal for business process execution, since the entities collaborating with each other now have a single source of truth. Also, since the stored data is immutable, blockchains are feasible to serve as audit trails \textbf{source needed?}.
+In our opinion, smart contracts are ideal for business process execution, since the entities collaborating with each other now have a single source of truth. Also, since the stored data is immutable, blockchains are feasible to serve as audit trails \textbf{[source?]}.
 
 As shown by Weber et al. in \cite{weber2016untrusted}, there are ways to extend the use cases of business process execution and auditing to an untrusted environment, thus making it possible for entities to collaborate with each other that would usually not be willing to do so. The execution of untrusted business processes is made possible by using Active Choreographies, which we will briefly discuss in section \ref{sec:rel_work}.
 
@@ -83,8 +83,7 @@ This section discusses the motivation, related work and the background which we 
     \label{fig:simple_bpmn}
 \end{figure}
 
-\textbf{taken from the paper form ingo weber!}
-Integrating business processes has been found to have a positive impact on the operational and business performance \cite{flynn2010impact,narayanan2011antecedents}. However a lack of trust between business partners is hindering such progress \cite{panayides2009impact}. By providing a solution that needs neither trust between participants, nor in any central authority and keeps the business done secret, we hope to further increase collaboration between businesses. 
+Integrating business processes has been found to have a positive impact on the operational and business performance \cite{flynn2010impact,narayanan2011antecedents}. However a lack of trust between business partners is hindering such progress \cite{panayides2009impact}. By providing a solution that needs neither trust between participants, nor in any central authority and keeps the business done secret, we hope to further increase collaboration between businesses.\footnote{Phrasing and sources inspired by \cite{weber2016untrusted}}
 
 \textbf{mention business process mining?} \cite{van2007business}
 
@@ -119,24 +118,25 @@ It displays the process of ordering, making and delivering pizza. In the process
 \bigbreak
 \textbf{Explain the levels of secrecy}. 
 \begin{itemize}
-    \item Model-layer
-    \item Communication-layer
-    \item Content-layer
+    \item Model level
+    \item Communication level
+    \item Content level
 \end{itemize}
+\cite{ladleif}
 
 
 
 
 \bigbreak
-\textbf{Active Choreography}. In \cite{weber2016untrusted} Weber et al. explain how a business process can be enforced in an environment where the participants do not trust each other. By using a smart contract, acting as an active mediator between participants. The term active mediator implies that the component is able to accept or reject messages and makes sure that the business process is executed as specified. With the help of this and other components they are able to \rom{1} execute collaborative processes over a network of untrusted nodes, \rom{2} enforce that only conforming messages can trigger state-changes, \rom{3} payments and escrows can be coded in the business process and \rom{4} an immutable audit trail keeps track of all transaction. Furthermore none of the participants in the business process has to organize the collaboration, which is what differentiates a choreography from a orchestration \cite{some_source}. The approach introduced in \cite{weber2016untrusted} is different from ours in the sense that in their implementation the business process is included in the smart contract, which makes it public. It displays which participants are collaborating with each other, how they are doing it and what messages are exchanged. There is no point in trying to encrypt messages that trigger a state-change, since these messages have to be processed with the smart contract and all calculations done on the smart contract are public. We aim to change this and try to hide what the business process, who is participating in it and what messages are exchanged, while still providing that \rom{1}, \rom{2} and \rom{4} hold. \textbf{Explain why \rom{3} does not hold???}
+\textbf{Active Choreography}. In \cite{weber2016untrusted} Weber et al. explain how a business process can be enforced in an environment where the participants do not trust each other. By using a smart contract, acting as an active mediator between participants. The term active mediator implies that the component is able to accept or reject messages and makes sure that the business process is executed as specified. With the help of this and other components they are able to \rom{1} execute collaborative processes over a network of untrusted nodes, \rom{2} enforce that only conforming messages can trigger state-changes, \rom{3} payments and escrows can be coded in the business process and \rom{4} an immutable audit trail keeps track of all transaction. Furthermore none of the participants in the business process has to organize the collaboration, which is what differentiates a choreography from a orchestration \cite{some_source}. The approach introduced in \cite{weber2016untrusted} is different from ours in the sense that in their implementation the business process is included in the smart contract, which makes it public. It displays which participants are collaborating with each other, how they are doing it and what messages are exchanged. There is no point in trying to encrypt messages that trigger a state-change, since these messages have to be processed with the smart contract and all calculations done on the smart contract are public. We aim to change this and try to hide what the business process, who is participating in it and what messages are exchanged, while still providing that \rom{1}, \rom{2} and \rom{4} hold. \textbf{Explain why \rom{3} does not hold?}
 
 For the scope of this publication we define an Active Choreography as a decentralized collaboration between nodes where no node has to orchestrate the process and the choreography is set up in a way that invalid state-changes can be rejected, thus making sure that the predefined procedure is always followed. 
 
 
 
 
-\bigbreak
-\textbf{Privacy Enhancing Technologies on the Blockchain}.
+
+\comment{
 \begin{itemize}
     % https://blog.ethereum.org/2016/01/15/privacy-on-the-blockchain/
     \item private blockchain (why is this more private? What kinds are there?)
@@ -145,34 +145,40 @@ For the scope of this publication we define an Active Choreography as a decentra
     \item zero knowledge proofs -> zero cash
     \item partiy.io. Also does secret messages. Has a private contract in the smart contract. We are better, because we can hide content from each other (concept of circles). Do a picture with where you are comparing the architecture (siehe mein colledge block)
 \end{itemize}
+}
+\bigbreak
+\textbf{Privacy Enhancing Technologies on the Blockchain}. Our implementation aims to provide privacy for all three levels. We considered multiple other technologies that are worth mentioning and might be used to protect one or more levels. 
 
-
-Our implementation aims to provide privacy for all three layers. We considered multiple other technologies that are worth mentioning and might be used to protect one or more layers. 
-
-One of them is \textit{obfuscation}. This is a technology that "aims to make a computer program 'unintelligible' while preserving its functionality" \cite{garg2016candidate}. If we could make use of it, it might be possible to hide the functionality of our business process on a public blockchain in "plain sight" (model layer). Since it was shown in \cite{barak2001possibility,barak2012possibility} that there were a set of functions that are impossible to obfuscate, the idea of indistinguishable obfuscation was introduced. This is a weaker constraint, guaranteeing that it is impossible to distinguish two equivalent programs have been obfuscated. These ideas seem to be very powerful, but come with a big drawback: Being extremely computationally expensive \cite{banescu2015idea}.
+One of them is \textit{obfuscation}. This is a technology that "aims to make a computer program 'unintelligible' while preserving its functionality" \cite{garg2016candidate}. If we could make use of it, it might be possible to hide the functionality of our business process on a public blockchain in "plain sight" (model level). Since it was shown in \cite{barak2001possibility,barak2012possibility} that there are a set of functions that are impossible to obfuscate, the idea of indistinguishable obfuscation was introduced. This is a weaker constraint, guaranteeing that it is impossible to distinguish two equivalent programs have been obfuscated. These ideas seem to be very powerful, but come with a big drawback: Being extremely computationally expensive \cite{banescu2015idea}.
 \comment{
 According to \cite{banescu2015idea}, to even generate an obfuscation of a 2-bit multiplication circuit would take about $10^{27}$ years on a 2,6 GHz CPU.} 
 
 
-\textit{Homomorphic encryption} might be used to do calculations on encrypted values \textbf{source}. This might be useful in the context of processing communication with the sc, without the having to reveal the actual messages (content layer). Similar to obfusaction, homomorphic encryption suffers from heavy computational overhead \textbf{source}.
+\textit{Homomorphic encryption} might be used to do calculations on encrypted values \textbf{source}. This might be useful in the context of processing communication with the sc, without having to reveal the actual messages (content level). Similar to obfusaction, homomorphic encryption suffers from heavy computational overhead \textbf{source}.
 
 
-A further technology considered is \textit{secure multi-party computation (SMPC)} \cite{orlandi2011multiparty}. With SMPC, there are are multiple parties involved in computing the output of a function. These parties do not have to trust each other. They thus need a protocol that makes sure that the output is correct and that cheating participants will not be able to learn anything about the input of the honest parties. An algorithm with these properties could provide us with a way to compute the current state of our business logic without letting some parties know the input that triggered that state (content-layer). 
+A further technology considered is \textit{secure multi-party computation (SMPC)} \cite{orlandi2011multiparty}. With SMPC, there are are multiple parties involved in computing the output of a function. These parties do not have to trust each other. They thus need a protocol that makes sure that the output is correct and that cheating participants will not be able to learn anything about the input of the honest parties. An algorithm with these properties could provide us with a way to compute the current state of our business logic without "broadcasting" the input that triggered that state (content level). 
 
 \comment{
-\textbf{Inefficient \textbf{SOURCE?}. Why did we not use this? -> model layer}
+\textbf{Inefficient \textbf{SOURCE?}. Why did we not use this? -> model level}
 }
 
-A technology already in use in blockchain applications are zero-knowledge Succinct Non-interactive ARguments of Knowledge (zk-SNARKs). An application using this is Zerocoin, which aims to provide "fully anonymous currency transactions" \cite{miers2013zerocoin}. zk-SNARKS provide the possibility to have an untrusted prover verify a statement made by a different party, without that party having to reveal their statement \cite{ben2013snarks}. It furthermore does so in a non-interactive manner. If we think of our business model as a state-machine, we might use zk-SNARKs to prove that a state-change is valid without actually communicating the respective message(s) (message- and content-layer).
+A technology already in use in blockchain applications are zero-knowledge Succinct Non-interactive ARguments of Knowledge (zk-SNARKs). An application using this is Zerocoin, which aims to provide "fully anonymous currency transactions" \cite{miers2013zerocoin}. zk-SNARKS provide the possibility to have an untrusted prover verify a statement made by a different party, without that party having to reveal their statement \cite{ben2013snarks}. It furthermore does so in a non-interactive manner. If we think of our business model as a state-machine, we might use zk-SNARKs to prove that a state-change is valid without actually communicating the respective message(s) (message- and content level).
 
-\comment{However we do not see how we could use zk-SNARKs to keep the model-layer secret. This might be a field of future work and if feasible, might be a better solution than the one we are providing right now.}
-
-
-Already applied in the context of blockchain applications (e.g. in Monero \cite{noether2016ring}) are \textit{Ring Signatures}. This is a signature created by multiple signers. It can be used to verify that a message was send by one of the signers, without revealing who in the group was the sender. For this the sender "does not need the knowledge, consent, or assistance" anyone else in the group  \cite{rivest2001leak}. 
-If applied in the similar way as in Monero, they might be useful to protect the identity of the collaborating entities(communication layer) and possibility the exchanged messages (content layer).  
+\comment{However we do not see how we could use zk-SNARKs to keep the model level secret. This might be a field of future work and if feasible, might be a better solution than the one we are providing right now.}
 
 
-An attentive reader 
+Also already applied in the context of blockchain applications (e.g. in Monero \cite{noether2016ring}) are \textit{Ring Signatures}. This is a signature created by multiple signers. It can be used to verify that a message was send by one of the signers, without revealing who in the group was the sender. For this the sender "does not need the knowledge, consent, or assistance" of anyone else in the group  \cite{rivest2001leak}. 
+If applied in the similar way as in Monero, Ring Signatures might be useful to protect the identity of the collaborating entities(communication level) and possibility the exchanged messages (content level).  
+
+
+
+An attentive reader might wonder why we are not suggesting to use a private blockchain. An application where it might be possible to penalize cheating participants or only include honest entities in the network (\textbf{sources needed?}). We try to avoid private networks, since in our opinion they are in need of of trust. Either in authorities within the network or in the organization(s) running the network. Executing untrusted business processes in a network in need of trust seems like a contradictory to us.
+
+
+We would also like to mention \textit{parity ethereum} \cite{parity}. With parity, users are able to hide private contracts in public contracts (model level) and to exchange private messages (content level, \textbf{communication level?}). However for private contract execution parity is relying on validators, "account[s] that can allow a private contract’s state [to] change". In our understanding this makes parity insufficient for untrusted business execution, since, like private blockchains, it requires trust in one or multiple nodes. 
+
+
 
 
 \section{out of scope things}
@@ -230,7 +236,7 @@ The ideal solution would look something like this:
 
 \subsection{Where should the logic of the business process be kept?}
 
-As mentioned before we try to enforce a business process (BP) with an Active Choreography while still keeping the content, communication and (in part) the model secret. Since we are in favor of using a public blockchain, we can consider all logic (model layer) and all communication that is done with a smart contract running on such a blockchain as public. We could encrypt the messages exchanged between smart contact and the participants of the Business Process. This would keep the content and possibly the communication secret, but if we keep the logic of the BP public that would be of no use. A simple example to illustrate this point:
+As mentioned before we try to enforce a business process (BP) with an Active Choreography while still keeping the content, communication and (in part) the model secret. Since we are in favor of using a public blockchain, we can consider all logic (model level) and all communication that is done with a smart contract running on such a blockchain as public. We could encrypt the messages exchanged between smart contact and the participants of the Business Process. This would keep the content and possibly the communication secret, but if we keep the logic of the BP public that would be of no use. A simple example to illustrate this point:
 
 \begin{figure}
     \centering
@@ -271,7 +277,7 @@ What happens if \textit{customer} or any other participant tries to cheat? Custo
 There are multiple drawbacks from the simple consensus protocol displayed in -\ref{fig:simple}: 
 
 \begin{enumerate}
-    \item In order for the Active Choreography to be able to reject an invalid message, we have to provide it with the original message. We would like to avoid that to keep the content of the message secret (content layer).
+    \item In order for the Active Choreography to be able to reject an invalid message, we have to provide it with the original message. We would like to avoid that to keep the content of the message secret (content level).
     \item Every participant of the BP will know all messages exchanged, even messages which do not affect him. 
     \item An observer will always know who the originator of the message was, since it is always the first client in the provided order. In our example the order was \textit{[C, D, W, P]}, which in this protocol, makes it obvious that this is a message from the owner of the C key-pair.
     \item A client which goes rouge could always block further progress in the BP, by no longer encrypting messages.
@@ -291,7 +297,7 @@ As shown in \ref{fig:circle}, \textit{customer} is in a circle with \textit{pizz
 
 Like before the smart contract is now able to reject any message, which was send without the consent of all clients participating in the BP. Also, since a message has to be signed by all clients, not only by the clients of the relevant circle, an outsider will not be able to know who is collaborating with whom. The total number of circles, the size and the members of any circle will remain secret. 
 
-To solve the third drawback (observer is able to determine the originator of a message), we can propose the the following schema, depicted in \ref{fig:complex}. Among all clients there one client will be chosen, sending the above message for someone else. This participant could either be chosen randomly for each message or once for the entire BP. The former approach would require less trust among all clients, the latter would make it possible to only "register" one communicator at the Active Choreography and thus keeping secret who is participating in the BP (communication layer). \ref{fig:complex} shows how the example from above could look like in the complex version of the consensus protocol.
+To solve the third drawback (observer is able to determine the originator of a message), we can propose the the following schema, depicted in \ref{fig:complex}. Among all clients there one client will be chosen, sending the above message for someone else. This participant could either be chosen randomly for each message or once for the entire BP. The former approach would require less trust among all clients, the latter would make it possible to only "register" one communicator at the Active Choreography and thus keeping secret who is participating in the BP (communication level). \ref{fig:complex} shows how the example from above could look like in the complex version of the consensus protocol.
 
 \begin{figure}
     \centering
@@ -366,9 +372,9 @@ If we decide to have the code code off-chain, to ensure that the business logic 
 
 An example: Alice $A$, Bob $B$ and evil Eve $E$ would like to participate in a business process. $E$ intends to be cheating (meaning not executing the business process in the pre-defined order). All three parties agree on a business process that should be executed. This business process is compiled to executable code. To consolidate this, they save a hash of this code on-chain. All parties now start to execute the business process. There are therefore state-changes to the business process. This state changes are reflected on-chain, without any outsider being aware of the underlying business process. The smart contract thus acts as an interface between the clients and the blockchain, which here plays the role of an audit trail, not an Active Choreography. If $E$ now sends an illegal state change to be recorded in the audit trail, the smart contract has no way of rejecting that, since it itself does not know if the proposed state change is legal or illegal.
 
-
+\comment{
 A technique to avoid this is introduced by parity \footnote{https://wiki.parity.io/Private-Transactions}: In their implementation before a client can communicate with the blockchain, it has to validate its communication with a validator. \textit{How does the chain know that the validator has validated the client? Assumption: It will check the signature of the client and the validator and know that this validator is responsible for that client.}. To avoid all this overhead and to make communication more private, we propose to use a ring signature. Ring signatures were first introduced in 2001 by Rivest et al. and make it possible to specify a group of possible signers without giving away who the actual author of a signed message is \ref{rivest2001leak}. Ring signatures are already used in combination with blockchain technology, among others the CrypoNote protocol used in the Monero network \ref{van2013cryptonote}. In the protocol, a participant can not know from who or to who he or she is sending money or is receiving money from, only that the sender or receiver is part of a one-time ring signature.
-
+}
 
 
 We propose that there exists exactly one ring, which includes all participants (regardless of their circle). If a participant now wants to have a state-change confirmed he/she has it signed by all other participants in the ring. A participant who is in the same circle as the sender can read the message. If he she disagrees with the content of the message (the state-change) he can communicate this back to the sender and prevent the state change. Since the smart contract can check if the message was signed with the ring signature $E$ has no way of submitting an invalid state-change. We now moved from an audit trail to an Active Choreography. 
