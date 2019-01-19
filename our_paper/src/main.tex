@@ -47,7 +47,7 @@ University of Potsdam, Am Neuen Palais 10, 14469 Potsdam, Germany  \\
 \begin{abstract}
 
 
-Integrating business processes was found to increase the performance of businesses. This collaboration is difficult if there is a lack of trust between the participating entities and between the entities and a third party. Active Choreographies solve this problem, by making business processes enforceable. However they require that the business process and all exchanged messages are public. In this paper we provide an alternative approach towards Active Choreographies that keeps the business logic, the exchanged messages and the identity of the entities exchanging messages secret, while still being enforceable. The schema can also be used to function as an encrypted audit trail. In addition to providing the conceptual background, we also make a prototype available, which executes a simple, predefined business process.
+Integrating business processes was found to increase the performance of businesses. This collaboration is difficult if there is a lack of trust between the participating entities and between the entities and a third party. Active Choreographies (ACs) solve this problem, by making business processes enforceable. However they require that the business process and all exchanged messages are public. In this paper we provide an alternative approach towards Active Choreographies that keeps the business logic, the exchanged messages and the identity of the entities exchanging messages secret, while still being enforceable. The schema can also be used to function as an encrypted audit trail. In addition to providing the conceptual background, we also make a prototype available, which executes a simple, predefined business process.
 
 
 \keywords{Business Processes  \and Active Choreographies \and Privacy.}
@@ -116,13 +116,18 @@ It displays the process of ordering, making and delivering pizza. In the process
 
 
 \bigbreak
-\textbf{Explain the levels of secrecy}. 
+\textbf{Visibility levels}. 
+
+Our aim is to restrict the visibility of ACs and thus provide privacy for the participating entities in an untrusted business process. To structure our approach we would like to subdivide the visibility of ACs, an approach introduced by Ladleif in \cite{ladleif}.
+
 \begin{itemize}
-    \item Model level
-    \item Communication level
-    \item Content level
+    \item \textbf{Model level}: The logic of the business process. If you would model a business process using BPMN, the BPMN model would be the model layer.
+    \item \textbf{Communication level}: The knowledge of which messages were exchanged, who exchanged them and which entities are part of the business process. Latleif also includes the time at which messages were send. For the scope of this publication, we would like to exclude the time of an exchanged message from the communication level.
+    \item \textbf{Content level}: The content of the exchanged messages.
 \end{itemize}
-\cite{ladleif}
+
+
+
 
 
 
@@ -188,12 +193,10 @@ I will at some point mention some things that are out of scope of this publicati
 
 \section{some section}
 
-
+\comment{
 \subsection{Tradition Solution}
 parties have to trust each other 
-
 there is a third party involved
-
 there is one party that controllers everything (a very strong party, e.g. Amazon)
 
 
@@ -205,6 +208,7 @@ here we explain how Active Choreographers work and cite from the paper again \ci
     \item have a private blockchain. For that we would have to trust the party, which is hosting that private chain. We don`t like this solution, because we are paranoid. 
     \item use cryptography to keep it hidden in plain sight (our approach).
 \end{enumerate}
+}
 
 \section{Approach}
 \subsection{Assumptions}
