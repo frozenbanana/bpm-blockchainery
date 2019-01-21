@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/dev/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: main.aux
+The style file: splncs04.bst
+Database file #1: refs.bib
+Repeated entry---line 120 of file refs.bib
+ : @inproceedings{weber2016untrusted
+ :                                  ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 186 of file refs.bib
+ : @article{paverd2014modelling
+ :                             ,
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "some_source"
+Warning--to sort, need author or key in parity
+Warning--empty journal in nakamoto2008bitcoin
+You've used 20 entries,
+            2850 wiz_defined-function locations,
+            712 strings with 8319 characters,
+and the built_in function-call counts, 12045 in all, are:
+= -- 1000
+> -- 404
+< -- 22
++ -- 170
+- -- 146
+* -- 766
+:= -- 1528
+add.period$ -- 34
+call.type$ -- 20
+change.case$ -- 147
+chr.to.int$ -- 0
+cite$ -- 22
+duplicate$ -- 1054
+empty$ -- 1065
+format.name$ -- 162
+if$ -- 2636
+int.to.chr$ -- 0
+int.to.str$ -- 20
+missing$ -- 213
+newline$ -- 66
+num.names$ -- 38
+pop$ -- 412
+preamble$ -- 1
+purify$ -- 111
+quote$ -- 0
+skip$ -- 322
+stack$ -- 0
+substring$ -- 659
+swap$ -- 593
+text.length$ -- 22
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 80
+warning$ -- 2
+while$ -- 101
+width$ -- 22
+write$ -- 207
+(There were 2 error messages)
