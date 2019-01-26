@@ -15,9 +15,15 @@
 % to display URLs in blue roman font according to Springer's eBook style:
 % \renewcommand\UrlFont{\color{blue}\rmfamily}
 
+%\newcommand{\rom}[1]{\uppercase\expandafter{\italic\romannumeral #1\relax}}  % roman numbers with \rom{num}
+%\newcommand{\ber}[1]{\lowercase\expandafter{\italic #1\relax}} % a
+\newcommand{\rom}[1]{\textit{#1}}
+\newcommand{\ber}[1]{\textit{#1}}
 
-\newcommand{\rom}[1]{(\uppercase\expandafter{\romannumeral #1\relax})}  % roman numbers with \rom{num}
-\newcommand{\ber}[1]{(\lowercase\expandafter{#1\relax})} % (a)
+\newcommand{\reffig}[1]{Figure~\ref{#1}}
+\newcommand{\reftab}[1]{Table~\ref{#1}}
+\newcommand{\refsec}[1]{Section~\ref{#1}}
+
 
 \begin{document}
 %
@@ -63,7 +69,7 @@ These capabilities (storing data immutably and having consent on a single state 
 
 In our opinion, SCs are ideal for business process execution, since the entities collaborating with each other now have a single source of truth. Also, since the stored data is immutable, blockchains are feasible to serve as audit trails \textbf{[source?]}.
 
-As shown by Weber et al. in \cite{weber2016untrusted}, there are ways to extend the use cases of business process execution and auditing to an untrusted environment, thus making it possible for entities to collaborate with each other that would usually not be willing to do so. The execution of untrusted business processes is made possible by using Active Choreographies, which we will briefly discuss in section \ref{sec:rel_work}.
+As shown by Weber et al. in \cite{weber2016untrusted}, there are ways to extend the use cases of business process execution and auditing to an untrusted environment, thus making it possible for entities to collaborate with each other that would usually not be willing to do so. The execution of untrusted business processes is made possible by using Active Choreographies, which we will briefly discuss in \refsec{sec:rel_work}.
 
 The goal of this paper is to extend the work of Weber et al.: We aim to make it possible to execute business processes in an untrusted environment and to enforce a business process without revealing its structure or purpose. The suggested schema keeps secret what was communicated during the process execution and who was communicating, while still making sure that the predefined procedure is being followed by all participants. The schema also records an immutable audit trail that is only visible by entities that have a right to see it. 
 
@@ -102,7 +108,7 @@ Our motivation can be summarized in the following statements: \ber{a} There are 
 \end{figure}
 
 
-Throughout this publication we will try to present our thoughts in more concrete fashion by applying them to the example shown in figure \ref{fig:simple_bpmn}. Here the parties are \ber{a} collaborating without trust (\ber{b} and \ber{c}). They also have an urge to keep as much as possible about their collaboration secret (\ber{d}, \ber{e} and \ber{f}). An example for \ber{g} would be that the \textit{Delivery Boy} should not know anything about the collaboration between \textit{Wholesaler} and \textit{Pizza Place}, even though he is part of the overall business process. 
+Throughout this publication we will try to present our thoughts in more concrete fashion by applying them to the example shown in \reffig{fig:simple_bpmn}. Here the parties are \ber{a} collaborating without trust (\ber{b} and \ber{c}). They also have an urge to keep as much as possible about their collaboration secret (\ber{d}, \ber{e} and \ber{f}). An example for \ber{g} would be that the \textit{Delivery Boy} should not know anything about the collaboration between \textit{Wholesaler} and \textit{Pizza Place}, even though he is part of the overall business process. 
 
 \comment{
 It displays the process of ordering, making and delivering pizza. In the process the \textit{Pizza Place} can decide weather to deliver straight away, using the \textit{Delivery Boy} as a middle man, or if it has order ingredients at the \textit{Wholesaler}. We chose a choreography diagram to display the process in order to emphasis the collaboration between the participants. Please keep in mind that in reality business processes might be much more complex and may involve many more participants. The example is kept simple on purpose and only serves as an illustration for our approach. 
@@ -208,7 +214,7 @@ here we explain how Active Choreographers work and cite from the paper again \ci
 
 \section{Approach}
 \subsection{Assumptions}
-\textbf{Should I unclude this part in the \ref{sec:motivation}?}
+\textbf{Should I unclude this part in the \refsec{sec:motivation}?}
 The following assumptions are made: 
 \begin{itemize}
     \item the blockchain is public
@@ -241,7 +247,7 @@ As mentioned before we try to enforce a business process (BP) with an Active Cho
 
 \textbf{picture moved}
 
-If we implement the BP shown in fig \ref{fig:simple_bpmn} as an Active Choreography and upload it to a public blockchain there is no point in trying to keep any of the communication secret. What do we mean by that? Let`s assume an observer tracks all communication done with the Active Choreography, but has no understanding what is being communicated and who is sending which messages. The observer does not need this information to be able to understand the communication. She can just watch the state-changes in the BP. If, for example, the state changes to \textit{ordered pizza}, the observer knows that a customer just ordered a pizza. If it then changes to \textit{order ingredients}, the observer understands that \textit{Pizza Place} does not have enough ingredients to process that order. Even if we try our best to keep content and communication secret, if we keep the state of the BP public, an outsider might be able to understand who is communicating and what is being communicated. The only thing we might be able to keep secret are mere details about the communication. For this reason we propose to keep the model off-chain. 
+If we implement the BP shown in \reffig{fig:simple_bpmn} as an Active Choreography and upload it to a public blockchain there is no point in trying to keep any of the communication secret. What do we mean by that? Let`s assume an observer tracks all communication done with the Active Choreography, but has no understanding what is being communicated and who is sending which messages. The observer does not need this information to be able to understand the communication. She can just watch the state-changes in the BP. If, for example, the state changes to \textit{ordered pizza}, the observer knows that a customer just ordered a pizza. If it then changes to \textit{order ingredients}, the observer understands that \textit{Pizza Place} does not have enough ingredients to process that order. Even if we try our best to keep content and communication secret, if we keep the state of the BP public, an outsider might be able to understand who is communicating and what is being communicated. The only thing we might be able to keep secret are mere details about the communication. For this reason we propose to keep the model off-chain. 
 
 
 \subsection{Implementing an Active Choreography off-chain}
@@ -250,7 +256,7 @@ An Active Choreography will make sure that a business process is executed as def
 
 If a client now wants to execute a state-change in the BP, there should be a consensus among all clients that this state change is legal. If we use a "normal" consensus protocol this would not keep a client from cheating, since the choreography has no knowledge of a consensus reached between the clients. An example: \textit{Customer} wants to order a Margarita pizza. For that he would like to do trigger a state change. For that he drafts the message \textit{Order Margarita for 5 EUR}. If we have a consensus protocol, e.g. based on voting the other clients could now accept or reject that message and with it the state-change. Let`s assume they accept it. \textit{Customer} now sends the message \textit{Order Margarita for 1 EUR} to the Active Choreography, which, with a client-based consensus protocol, has no way of rejecting this message as illegal. 
 
-To prevent this from happening a feasible consensus protocol might look like \ref{fig:simple}, with $S_x$ being the secret key of each participant. In our example \textit{customer} drafts the message \textit{Order Margarita for 5 EUR} and encrypts it with his secret key $S_c$. The message is then send of to all other participants. Each of whom encrypt it with their secret key. 
+To prevent this from happening a feasible consensus protocol might look like \reffig{fig:simple}, with $S_x$ being the secret key of each participant. In our example \textit{customer} drafts the message \textit{Order Margarita for 5 EUR} and encrypts it with his secret key $S_c$. The message is then send of to all other participants. Each of whom encrypt it with their secret key. 
 
 
 \begin{figure}
@@ -270,7 +276,7 @@ What happens if \textit{customer} or any other participant tries to cheat? Custo
 
 \subsection{Advancing the idea of the simple consensus protocol}
 
-There are multiple drawbacks from the simple consensus protocol displayed in -\ref{fig:simple}: 
+There are multiple drawbacks from the simple consensus protocol displayed in \reffig{fig:simple}: 
 
 \begin{enumerate}
     \item In order for the Active Choreography to be able to reject an invalid message, we have to provide it with the original message. We would like to avoid that to keep the content of the message secret (content level).
@@ -289,11 +295,11 @@ The first and the second drawback can be by using symmetric keys to encrypt mess
 \end{figure}
 
 
-As shown in \ref{fig:circle}, \textit{customer} is in a circle with \textit{pizza place} and \textit{delivery boy}. \textit{wholesaler} is not in that group. This is because \textit{wholesaler} should not know what e.g. \textit{customer} and \textit{delivery boy} are communicating. To enforce the circles, both groups will exchange symmetric keys, prior to the execution of the BP. This symmetric key exchange can be done safely, since they participants can exchange symmetric keys using asymmetric key encryption (similar to OpenPGP  \textbf{citation needed!}). To exchange messages, the clients will now first encrypt them with the symmetric key of their circle and then send it on to the other clients (compare \ref{fig:complex}). A client which is in a circle will be able to encrypt the message. All other clients will not be able to read it. Like before one client from the group will have to send the encrypted message and the order of the applied keys to the Active Choreography. The example from above will now look as follows: \textit{cipher1, cipher2, [C, D, W, P]}, with \textit{cipher1 =} $S_P(S_W(S_D(S_C(cipher2))))$, $cipher2 = Sym_{blue}(message)$, \textit{message = Order Margarita for 5 EUR} ($Sym_{blue}$ is the symmetric key of the blue circle).
+As shown in \reffig{fig:circle}, \textit{customer} is in a circle with \textit{pizza place} and \textit{delivery boy}. \textit{wholesaler} is not in that group. This is because \textit{wholesaler} should not know what e.g. \textit{customer} and \textit{delivery boy} are communicating. To enforce the circles, both groups will exchange symmetric keys, prior to the execution of the BP. This symmetric key exchange can be done safely, since they participants can exchange symmetric keys using asymmetric key encryption (similar to OpenPGP  \textbf{citation needed!}). To exchange messages, the clients will now first encrypt them with the symmetric key of their circle and then send it on to the other clients (compare \reffig{fig:complex}). A client which is in a circle will be able to encrypt the message. All other clients will not be able to read it. Like before one client from the group will have to send the encrypted message and the order of the applied keys to the Active Choreography. The example from above will now look as follows: \textit{cipher1, cipher2, [C, D, W, P]}, with \textit{cipher1 =} $S_P(S_W(S_D(S_C(cipher2))))$, $cipher2 = Sym_{blue}(message)$, \textit{message = Order Margarita for 5 EUR} ($Sym_{blue}$ is the symmetric key of the blue circle).
 
 Like before the Smart Contract is now able to reject any message, which was send without the consent of all clients participating in the BP. Also, since a message has to be signed by all clients, not only by the clients of the relevant circle, an outsider will not be able to know who is collaborating with whom. The total number of circles, the size and the members of any circle will remain secret. 
 
-To solve the third drawback (observer is able to determine the originator of a message), we can propose the the following schema, depicted in \ref{fig:complex}. Among all clients there one client will be chosen, sending the above message for someone else. This participant could either be chosen randomly for each message or once for the entire BP. The former approach would require less trust among all clients, the latter would make it possible to only "register" one communicator at the Active Choreography and thus keeping secret who is participating in the BP (communication level). \ref{fig:complex} shows how the example from above could look like in the complex version of the consensus protocol.
+To solve the third drawback (observer is able to determine the originator of a message), we can propose the the following schema, depicted in \reffig{fig:complex}. Among all clients there one client will be chosen, sending the above message for someone else. This participant could either be chosen randomly for each message or once for the entire BP. The former approach would require less trust among all clients, the latter would make it possible to only "register" one communicator at the Active Choreography and thus keeping secret who is participating in the BP (communication level). \reffig{fig:complex} shows how the example from above could look like in the complex version of the consensus protocol.
 
 \begin{figure}
     \centering
@@ -369,7 +375,7 @@ If we decide to have the code code off-chain, to ensure that the business logic 
 An example: Alice $A$, Bob $B$ and evil Eve $E$ would like to participate in a business process. $E$ intends to be cheating (meaning not executing the business process in the pre-defined order). All three parties agree on a business process that should be executed. This business process is compiled to executable code. To consolidate this, they save a hash of this code on-chain. All parties now start to execute the business process. There are therefore state-changes to the business process. This state changes are reflected on-chain, without any outsider being aware of the underlying business process. The Smart Contract thus acts as an interface between the clients and the blockchain, which here plays the role of an audit trail, not an Active Choreography. If $E$ now sends an illegal state change to be recorded in the audit trail, the Smart Contract has no way of rejecting that, since it itself does not know if the proposed state change is legal or illegal.
 
 \comment{
-A technique to avoid this is introduced by parity \footnote{https://wiki.parity.io/Private-Transactions}: In their implementation before a client can communicate with the blockchain, it has to validate its communication with a validator. \textit{How does the chain know that the validator has validated the client? Assumption: It will check the signature of the client and the validator and know that this validator is responsible for that client.}. To avoid all this overhead and to make communication more private, we propose to use a ring signature. Ring signatures were first introduced in 2001 by Rivest et al. and make it possible to specify a group of possible signers without giving away who the actual author of a signed message is \ref{rivest2001leak}. Ring signatures are already used in combination with blockchain technology, among others the CrypoNote protocol used in the Monero network \ref{van2013cryptonote}. In the protocol, a participant can not know from who or to who he or she is sending money or is receiving money from, only that the sender or receiver is part of a one-time ring signature.
+A technique to avoid this is introduced by parity \footnote{https://wiki.parity.io/Private-Transactions}: In their implementation before a client can communicate with the blockchain, it has to validate its communication with a validator. \textit{How does the chain know that the validator has validated the client? Assumption: It will check the signature of the client and the validator and know that this validator is responsible for that client.}. To avoid all this overhead and to make communication more private, we propose to use a ring signature. Ring signatures were first introduced in 2001 by Rivest et al. and make it possible to specify a group of possible signers without giving away who the actual author of a signed message is \cite{rivest2001leak}. Ring signatures are already used in combination with blockchain technology, among others the CrypoNote protocol used in the Monero network \cite{van2013cryptonote}. In the protocol, a participant can not know from who or to who he or she is sending money or is receiving money from, only that the sender or receiver is part of a one-time ring signature.
 }
 
 
