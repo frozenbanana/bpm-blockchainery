@@ -66,12 +66,16 @@ University of Potsdam, Am Neuen Palais 10, 14469 Potsdam, Germany  \\
 
 Integrating business processes has been found to have a positive impact on the operational and business performance \cite{flynn2010impact,narayanan2011antecedents}. However a lack of trust between business partners is hindering such progress \cite{panayides2009impact}. By proposing a solution that needs neither trust between participants, nor trust in any central authority and keeps the business done secret, we hope to further increase collaboration between businesses. As shown by Weber et al. in \cite{weber2016untrusted}, there are ways to extend the use cases of business process execution and auditing to an untrusted environment, thus making it possible for entities to collaborate with each other that would usually not be willing to do so. This execution of untrusted business processes is made possible by using an blockchain-based implementation \todo{Implementation of ACs, not the modeling standard} of Active Choreographies, which we will briefly discuss in \refsec{subsec:blockchainbased}.\footnote{Phrasing and sources of the Introduction where in part taken from \cite{weber2016untrusted}} 
 
-The goal \todo{Quick motivation. Can this stay in the introduction?} of this paper is to explore the notions of privacy and visibility with regards to untrusted execution of choreographies on the blockchain. 
+The goal \todo{Quick motivation. Can this stay in the introduction?} of this paper is to explore the notions of privacy and visibility with regards to untrusted execution of choreographies on the blockchain and to introduce a schema which aims to keep untrusted business process execution \todo{untrusted b.p. execution from Weber. Do I need to define this?} private, while still being enforceable. The structure of the paper is as follows: Introduction (\refsec{sec:intro}).  Background (\refsec{sec:background}), where we will give a short introduction over the work we considered when creating our solution. Approach (\refsec{sec:approach}). An overview of the proposed solution. Evaluation (\refsec{sec:eval}),  where we introduce our implementation. Discussion (\refsec{sec:discussion}). An summary over limitations, alternative implementations and future work and the Conclusion (\refsec{sec:conclusion}).
+
+
+
+
 
 \todo{if this is too short, bring up blockchain?}
 
 
-\section{Background} \label{sec:backgrounmotivation}
+\section{Background} \label{sec:background}
 
 \subsection{Blockchain-Based choreographies} \label{subsec:blockchainbased}
 
@@ -140,19 +144,54 @@ Before introducing our schema, we would like to mention the assumptions on which
 
 
 \bigbreak
-\textbf{Assumptions about the participating parties}: \ber{a} There are several parties which want to collaborate. These parties have \ber{b} neither trust in each other nor \ber{c} trust in any third party. They furthermore \ber{d} want to keep their business processes secret, \ber{e} hide with whom they are collaborating and \ber{f} hide what messages are exchanged during the collaboration. Since the parties distrust each other they also \ber{g} only want to share messages with the entities that have to see them and keep them secret from the others. Each party \ber{f} is "honest but curious" \todo{cite a reference here}. They follow the protocol, but will try to collect as much information as possible. These assumptions justify that we aim to keep all levels mentioned in \refsec{subsec:levels} \todo{when refering to a subsection, do I have to write subsection x.y?} private. To be more specific, \ber{d} requires a private \ber{Model Level}, \ber{e} a private \ber{Communication Level} and \ber{f} a private  \ber{Content Level}.
+\textbf{Assumptions about the participating parties}: \ber{a} There are several parties which want to collaborate. These parties have \ber{b} neither trust in each other nor \ber{c} trust in any third party. They furthermore \ber{d} want to keep their business processes secret, \ber{e} hide with whom they are collaborating and \ber{f} hide what messages are exchanged during the collaboration. Since the parties distrust each other they also \ber{g} only want to share messages with the entities that have to see them and keep them secret from the others. Each party \ber{h} is "honest but curious" \todo{cite a reference here}. They follow the protocol, but will try to collect as much information as possible. These assumptions justify that we aim to keep all levels mentioned in \refsec{subsec:levels} \todo{when refering to a subsection, do I have to write subsection x.y?} private. To be more specific, \ber{d} requires a private \ber{Model Level}, \ber{e} a private \ber{Communication Level} and \ber{f} a private  \ber{Content Level}.
 
 
 \bigbreak
 \textbf{Further assumptions:}
-All data that is \ber{g} processed on the blockchain is considered public. It is \ber{h} possible to convert a business process into a program or state-machine in order for parties to determine that validity of a state change.
+\ber{i} All data that is processed on the blockchain is considered public. It is \ber{j} possible to convert a business process into a program or state-machine in order for parties to determine that validity of a state change. \ber{k} In terms of trust, a public blockchain is superior to a private one, since it does not require trust in the organisation that runs the network. \ber{l} A network that employs "policing notes" \footnote{Nodes that have the special role of enforcing rules or similar tasks} is considered inferior to a network without such nodes, since such a network requires "trust in the authorities".
 
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.6]{bpmn.png}
+    \caption{Choreography diagram of a pizza ordering process} 
+    \label{fig:simple_bpmn}
+\end{figure}
+
+
+Throughout this paper we will try to present our thoughts in more concrete fashion by applying them to the example shown in \reffig{fig:simple_bpmn}. Here the parties are collaborating without trust (\ber{a}, \ber{b} and \ber{c}). They also have an urge to keep as much as possible about their collaboration secret (\ber{d}, \ber{e} and \ber{f}). An example of \ber{g} and \ber{h} would be that the \textit{D} \todo{Could you please make a version with capitalized abbreviations? E.g. Delivery Boy to D.}
+ should not know anything about the collaboration between \textit{W} and \textit{P}, even though he is part of the overall business process. 
 
 
 
 \subsection{Proposed Schema} \label{subsec:schema}
 
-our schema
+In this chapter we discuss our proposed schema. We will do so by introducing mechanisms which each solve one or more of the premises of \refsec{subsec:assumptions} \todo{section x will combine all mechanisms}.
+
+\bigbreak
+\textbf{Circles.} In order to solve problem \ber{g} and (in part) \ber{h}, we introduce the notion of circles. Circles are visibility constraints for a group of entities. A message exchanged within a circle can only be read by other participants of a circle. We achieve this by using symmetric keys which are exchanged between the members of a circle before the execution of the process. This can be done by using established processes like \todo{openPGP? Find source!}. Which parties are within which circle should be established by the parties themselves and is thus out of scope of this paper. \ref{fig:circles} shows an example of possible circles of the process defined in  \reffig{fig:circles}. Each circle has its own associated symmetric key and each message is encrypted with that key. This way \ber{D} cannot read the communication between \ber{W} and \ber{P}. Also the message can still be included in the audit trail, since only \ber{W} and \ber{P} can read it. This encryption also keeps the \ber{Content Layer} of the process secret (premise \ber{f}).
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.6]{bpmn.png}
+    \caption{Circles for of the process described in \reffig{fig:circles}} 
+    \label{fig:circles}
+\end{figure}
+
+\todo{write abbreviation in the illustration}
+
+
+\bigbreak
+\textbf{Protecting the Model Layer.} Since we consider all communication and all code execution on the blockchain as public (premise \ber{i}), we decided to store and execute the logic off-chain. This is in order to keep the \ber{Model Layer} secret (premise \ber{d}). The representation of the business process is shared amongst all entities. This could be a graph or executable code. This representation should vary in detail, hiding the details of the process that are out of the own circle. How this representation looks like exactly and how it is shared is out of scope of this paper.
+
+
+\bigbreak
+\textbf{Enforceability.} sdndlj
+
+
+
 
 
 \section{Evaluation} \label{sec:eval}
