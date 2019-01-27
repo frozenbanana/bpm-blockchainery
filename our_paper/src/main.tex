@@ -27,8 +27,6 @@
 \newcommand{\reftab}[1]{Table~\ref{#1}}
 \newcommand{\refsec}[1]{Section~\ref{#1}}
 
-
-
 \begin{document}
 %
 \title{Towards private Active Choreographies on public blockchain}
@@ -66,13 +64,14 @@ University of Potsdam, Am Neuen Palais 10, 14469 Potsdam, Germany  \\
 
 \section{Introduction} \label{sec:intro}
 
-privacy in inter-organizational process execution.
+Integrating business processes has been found to have a positive impact on the operational and business performance \cite{flynn2010impact,narayanan2011antecedents}. However a lack of trust between business partners is hindering such progress \cite{panayides2009impact}. By proposing a solution that needs neither trust between participants, nor trust in any central authority and keeps the business done secret, we hope to further increase collaboration between businesses. As shown by Weber et al. in \cite{weber2016untrusted}, there are ways to extend the use cases of business process execution and auditing to an untrusted environment, thus making it possible for entities to collaborate with each other that would usually not be willing to do so. This execution of untrusted business processes is made possible by using an blockchain-based implementation \todo{Implementation of ACs, not the modeling standard} of Active Choreographies, which we will briefly discuss in \refsec{subsec:blockchainbased}.\footnote{Phrasing and sources of the Introduction where in part taken from \cite{weber2016untrusted}} 
 
-The goal of this paper is to explore the notions of privacy and visibility with regards to untrusted execution of choreographies on the blockchain.
+The goal \todo{Quick motivation. Can this stay in the introduction?} of this paper is to explore the notions of privacy and visibility with regards to untrusted execution of choreographies on the blockchain. 
+
+\todo{if this is too short, bring up blockchain?}
 
 
-
-\section{Background and Motivation} \label{sec:backgrounmotivation}
+\section{Background} \label{sec:backgrounmotivation}
 
 \subsection{Blockchain-Based choreographies} \label{subsec:blockchainbased}
 
@@ -85,15 +84,11 @@ what did Jan do?
 
 
 
-\subsection{Privacy Considerations} \label{subsec:privacy}
+\subsection{Visibility levels} \label{subsec:levels}
 
-However, while discussing privacy issues, Weber et al. and Ladleif did not take any measures to actually implement them...
-
-
+While the issue of privacy was mentioned by Weber et al. and Ladleif, they did not take any measures to actually implement them. However, Latleif did introduce different levels of visibility in the context of modeling business contracts with ACs \cite{ladleif}. The levels are as follows:
 
 
-\textbf{Visibility levels}. \cite{ladleif}
-\comment{Our aim is to restrict the visibility of ACs and thus provide privacy for the participating entities in an untrusted business process. To structure our approach we would like to subdivide the visibility of ACs, an approach introduced by Ladleif in \cite{ladleif}.}
 
 \begin{itemize}
     \item \ber{Model level}: The logic of the business process. If you would model a business process using BPMN, the BPMN model would be the model layer. If you would implement it using a programming language, the source code would be the model layer.
@@ -101,11 +96,8 @@ However, while discussing privacy issues, Weber et al. and Ladleif did not take 
     \item \ber{Content level}: The content of the exchanged messages.
 \end{itemize}
 
+We are referring to these levels when discussing the assumptions that our approach is based on in \refsec{subsec:assumptions} and also in \refsec{subsec:schema}, when we discuss our proposed solution. \todo{I do not want to repeat the motivation for why we need the levels. Is this ok?}
 
-
-talk about layers. Why are they important? 
-
-Motivation!
 
 
 
@@ -113,15 +105,28 @@ Motivation!
 
 \subsection{Privacy Enhancing Technologies} \label{subsec:technologies}
 
-talk about technologies that are currently out there 
+\textbf{Privacy Enhancing Technologies on the Blockchain}. Our implementation aims to provide privacy for all three layers. We considered multiple other technologies that are \todo{Do we need to tell the reader why we mention this?} worth mentioning and could be a viable alternative to our approach. \todo{try to be a bit more high-level, not too focused on possible solutions}
 
-try to be a bit more high-level, not too focused on possible solutions
+One of them is \textit{obfuscation}. This is a technology that "aims to make a computer program 'unintelligible' while preserving its functionality" \cite{garg2016candidate}. Since it was shown in \cite{barak2001possibility,barak2012possibility} that there is a set of functions that are impossible to obfuscate, the idea of indistinguishable obfuscation was introduced. This is a weaker constraint, guaranteeing that it is impossible to distinguish two equivalent programs that have been obfuscated. These ideas seem to be very powerful, but come with a big drawback: Being extremely computationally expensive \cite{banescu2015idea}. \todo{do I need a line break here or can I just write one long paragraph?}
 
-
-
-
+\textit{Homomorphic encryption} might be used to do calculations on encrypted values \todo{source}. Similar to obfusaction, homomorphic encryption suffers from heavy computational overhead \todo{source}.
 
 
+A further technology considered is \textit{secure multi-party computation (SMPC)} \cite{orlandi2011multiparty}. With SMPC, there are are multiple parties involved in computing the output of a function. These parties do not have to trust each other. They thus need a protocol that makes sure that the output is correct and that cheating participants will not be able to learn anything about the input of the honest parties. \todo{Should we really not tell the reader why we consider this a nice technology for our purpose? Or does all of this go into the Discussion (for all technologies)?}
+
+
+A technology already in use in blockchain applications are zero-knowledge Succinct Non-interactive ARguments of Knowledge (zk-SNARKs). An application using it is Zerocoin, which aims to provide "fully anonymous currency transactions" \cite{miers2013zerocoin}. zk-SNARKS provide the possibility to have an untrusted prover verify a statement (or secret) made by a different party, without that party having to reveal their secret \cite{ben2013snarks}. It furthermore does so in a non-interactive manner. 
+
+
+
+Also already applied in the context of blockchain applications are \textit{Ring Signatures}. This is a signature created using the public keys of multiple parties. It can be used to verify that a message was send by one of the parties, without revealing which of them was the sender. For this the sender "does not need the knowledge, consent, or assistance" of anyone else in the group  \cite{rivest2001leak}. In Monero this technology, together with one-time keys, is used to hide the identity of the sender and the receiver of a transaction  \cite{noether2016ring}.
+
+
+
+Today there exist already multiple projects that focus on business process execution \todo{citations of those projects}. Some of them provide mechanisms aiming to create trust between participants \todo{Give example. Explain how they provide that trust?}. A further already existing implementation is  \textit{parity ethereum}. With parity, users are able to hide private contracts in public contracts and to exchange private messages \cite{parity}.
+
+\comment{However for private contract execution parity is relying on validators, "account[s] that can allow a private contract’s state [to] change" \cite{parity}. In our understanding this makes parity insufficient for untrusted business execution, since, like private blockchains, it requires trust in one or multiple nodes. 
+}
 
 
 
@@ -130,15 +135,12 @@ try to be a bit more high-level, not too focused on possible solutions
 
 \subsection{Assumptions and Scenario} \label{subsec:assumptions}
 
-
-
-
 Before introducing our schema, we would like to mention the assumptions on which our proposal is based on. Each premise is marked for potential later reference. \todo{do I need this? Am I referring to any of the specific points later on?}
 
 
 
 \bigbreak
-\textbf{Assumptions about the participating parties}: \ber{a} There are several parties which want to collaborate. These parties have \ber{b} neither trust in each other nor \ber{c} trust in any third party. They furthermore \ber{d} want to keep their business processes secret, \ber{e} hide with whom they are collaborating and \ber{f} hide what messages are exchanged during the collaboration. Since the parties distrust each other they also \ber{g} only want to share messages with the entities that have to see them and keep them secret from the others. Each party \ber{f} is "honest but curious" \todo{cite a reference here}. They follow the protocol, but will try to collect as much information as possible. These assumptions justify that we aim to keep all levels mentioned in \refsec{subsec:privacy} \todo{when refering to a subsection, do I have to write subsection x.y?} private. To be more specific, \ber{d} requires a private \ber{Model Level}, \ber{e} a private \ber{Communication Level} and \ber{f} a private  \ber{Content Level}.
+\textbf{Assumptions about the participating parties}: \ber{a} There are several parties which want to collaborate. These parties have \ber{b} neither trust in each other nor \ber{c} trust in any third party. They furthermore \ber{d} want to keep their business processes secret, \ber{e} hide with whom they are collaborating and \ber{f} hide what messages are exchanged during the collaboration. Since the parties distrust each other they also \ber{g} only want to share messages with the entities that have to see them and keep them secret from the others. Each party \ber{f} is "honest but curious" \todo{cite a reference here}. They follow the protocol, but will try to collect as much information as possible. These assumptions justify that we aim to keep all levels mentioned in \refsec{subsec:levels} \todo{when refering to a subsection, do I have to write subsection x.y?} private. To be more specific, \ber{d} requires a private \ber{Model Level}, \ber{e} a private \ber{Communication Level} and \ber{f} a private  \ber{Content Level}.
 
 
 \bigbreak
