@@ -161,8 +161,8 @@ Before introducing our schema, we would like to mention the assumptions on which
 \end{figure}
 
 
-Throughout this paper we will try to present our thoughts in more concrete fashion by applying them to the example shown in \reffig{fig:simple_bpmn}. Here the parties are collaborating without trust (\ber{a}, \ber{b} and \ber{c}). They also have an urge to keep as much as possible about their collaboration secret (\ber{d}, \ber{e} and \ber{f}). An example of \ber{g} and \ber{h} would be that the \textit{D} \todo{Could you please make a version with capitalized abbreviations? E.g. Delivery Boy to D.}
- should not know anything about the collaboration between \textit{W} and \textit{P}, even though he is part of the overall business process. 
+Throughout this paper we will try to present our thoughts in more concrete fashion by applying them to the example shown in \reffig{fig:simple_bpmn}. Here the parties are collaborating without trust (\ber{a}, \ber{b} and \ber{c}). They also have an urge to keep as much as possible about their collaboration secret (\ber{d}, \ber{e} and \ber{f}). An example of \ber{g} and \ber{h} would be that \textit{D} \todo{Could you please make a version with capitalized abbreviations? E.g. Delivery Boy to D.}
+ should not know anything about the collaboration between \textit{W} and \textit{P}, even though \ber{D} is part of the overall business process. 
 
 
 
@@ -171,16 +171,16 @@ Throughout this paper we will try to present our thoughts in more concrete fashi
 In this chapter we discuss our proposed schema. We will do so by introducing mechanisms which each solve one or more of the premises of \refsec{subsec:assumptions} \todo{section x will combine all mechanisms}.
 
 \bigbreak
-\textbf{Circles.} In order to solve problem \ber{g} and (in part) \ber{h}, we introduce the notion of circles. Circles are visibility constraints for a group of entities. A message exchanged within a circle can only be read by other participants of a circle. We achieve this by using symmetric keys which are exchanged between the members of a circle before the execution of the process. This can be done by using established processes like \todo{openPGP? Find source!}. Which parties are within which circle should be established by the parties themselves and is thus out of scope of this paper. \ref{fig:circles} shows an example of possible circles of the process defined in  \reffig{fig:circles}. Each circle has its own associated symmetric key and each message is encrypted with that key. This way \ber{D} cannot read the communication between \ber{W} and \ber{P}. Also the message can still be included in the audit trail, since only \ber{W} and \ber{P} can read it. This encryption also keeps the \ber{Content Layer} of the process secret (premise \ber{f}).
+\textbf{Circles.} In order to solve premise \ber{g} and (in part) \ber{h}, we introduce the notion of circles. Circles are visibility constraints for a group of entities. A message exchanged within a circle can only be read by other participants of a circle. We achieve this by using symmetric keys which are exchanged between the members of a circle before the execution of the process. This can be done by using established processes like \todo{openPGP? Find source!}. Which parties are within which circle should be established by the parties themselves and is therefore out of scope of this paper. \reffig{fig:circles} shows an example of possible circles of the process defined in  \reffig{fig:simple_bpmn}. Each circle has its own associated symmetric key and each message is encrypted with that key. This way \ber{D} cannot read the communication between \ber{W} and \ber{P}. Also the message can still be included in the audit trail, since only \ber{W} and \ber{P} can read it. This encryption keeps the \ber{Content Layer} of the process secret (premise \ber{f}).
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.6]{bpmn.png}
+    \includegraphics[scale=0.6]{cicles.png}
     \caption{Circles for of the process described in \reffig{fig:circles}} 
     \label{fig:circles}
 \end{figure}
 
-\todo{write abbreviation in the illustration}
+\todo{write abbreviation in the illustration. Make it black and white.}
 
 
 \bigbreak
@@ -188,9 +188,34 @@ In this chapter we discuss our proposed schema. We will do so by introducing mec
 
 
 \bigbreak
-\textbf{Enforceability.} sdndlj
+\textbf{Consensus mechanismn} Since we store the logic of the business process of chain, a smart 
+\todo{I explain our schema by using an example. Do I need to add a more formal description?} contract \footnote{A program which is being executed on a blockchain} has no way of knowing if a proposed state-change is valid or not \todo{Where should I explain that we view bp as state-machine?}. This is why we to created a simple consensus mechanism for the nodes and created a smart contract that is able to reject messages that did no result out of this consensus mechanism. If both of these things are given a smart contract is able to enforce a business process without being aware of its logic.
 
 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.09]{schema.jpg}
+    \caption{The proposed schema} 
+    \label{fig:schema}
+\end{figure}
+
+\reffig{fig:schema} shows such a mechanism. It is displayed how \ber{C} would like to propose a state-change (e.g. ordering a pizza). For that \ber{C} creates the message \ber{msg} (e.g. "send pizza magarita now!"). This message is encrypted using the symmetric key \ber{sym} of his circle. The encrypted message is denoted as \ber{cypher}. As a first step, \ber{C} is then sending the cypher to a random node, e.g. \ber{P} (we explain the necessity of this step in \refsec{subsec:furtherinfo}). Since \ber{P} happens to be in the same circle as \ber{C}, he can read the cypher by decrypting it with the symmetric key of his circle. Nodes that are within the same circle and can read the message can give their consent by adding their signature. If a node does not give consent, the message will be rejected by the smart contract. The entities then have to communicate to resolve the issue. 
+
+\todo{order in circle is always the same}
+
+A creates consent by applying a hash function to a value and then encrypting this hashed value with his private key. The combination of these functions is denoted as $S_x$. $x$ is the respective node. The value is the previous signature or, if that does not exist, \ber{cypher}. A node that is not in the circly does not receive any new information since it is not able to read the message. It is also unable to know who the originator of the message is \ber{C} send it to a random node to start the procedure. A node will also not be able to know how many other nodes already "agreed"\footnote{We write "agreed" since nodes outside the circle cannot read the message and simply pass it on.} to the message, we nest signatures and do not combine them.
+
+\todo{works only if nobody knows from whom a message is}
+
+If all nodes agreed \ber{cypher} and the combined signatures will be at \ber{P} again. Since \ber{P} has already seen \ber{cypher} he will send it to the smart contract for validation. If the validation passes, the nodes will know that they reached a new state in their business process, but only \ber{C} and \ber{D} will know what state this is.
+
+
+
+
+\subsection{Validation} \label{subsec:furtherinfo}
+
+\ber{h} honest but curious
+why it is necessary to send cypher to P first.
 
 
 
