@@ -6,6 +6,8 @@
 \documentclass[runningheads]{llncs}
 
 \usepackage{graphicx}
+\usepackage{todonotes}
+\newcommand{\comment}[1]{}
 
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
@@ -55,7 +57,9 @@ University of Potsdam, Am Neuen Palais 10, 14469 Potsdam, Germany  \\
 \begin{abstract}
 
     Make it clear that we are talking about an implementation of ACs, not the BPMN standard!
-
+    
+    \todo{write abstract}
+    
     We are working towards implementing a realization of ACs, that implements some visibility constraints that you would usually see in real-world applications, like confidential data and transactions.
 
 \end{abstract}
@@ -76,15 +80,36 @@ basically a more specific Introduction
 
 what did Ingo do?
 
-what did Jan do? 
+what did Jan do?
+
+
+
 
 \subsection{Privacy Considerations} \label{subsec:privacy}
 
 However, while discussing privacy issues, Weber et al. and Ladleif did not take any measures to actually implement them...
 
+
+
+
+\textbf{Visibility levels}. \cite{ladleif}
+\comment{Our aim is to restrict the visibility of ACs and thus provide privacy for the participating entities in an untrusted business process. To structure our approach we would like to subdivide the visibility of ACs, an approach introduced by Ladleif in \cite{ladleif}.}
+
+\begin{itemize}
+    \item \ber{Model level}: The logic of the business process. If you would model a business process using BPMN, the BPMN model would be the model layer. If you would implement it using a programming language, the source code would be the model layer.
+    \item \ber{Communication level}: The knowledge of which messages were exchanged, who exchanged them and which entities are part of the business process. Latleif also includes the time at which messages were send. For the scope of this publication, we would like to exclude the time of an exchanged message from the communication level.
+    \item \ber{Content level}: The content of the exchanged messages.
+\end{itemize}
+
+
+
 talk about layers. Why are they important? 
 
 Motivation!
+
+
+
+
 
 \subsection{Privacy Enhancing Technologies} \label{subsec:technologies}
 
@@ -95,23 +120,26 @@ try to be a bit more high-level, not too focused on possible solutions
 
 
 
+
+
+
+
+
+
 \section{Approach} \label{sec:approach}
 
 \subsection{Assumptions and Scenario} \label{subsec:assumptions}
 
-\textbf{do I need this? Am I referring to any of the specific points later on?}
 
 
 
-Before introducing our schema, we would like to mention the assumptions on which our proposal is based on. Each premise is marked for potential later reference.
+Before introducing our schema, we would like to mention the assumptions on which our proposal is based on. Each premise is marked for potential later reference. \todo{do I need this? Am I referring to any of the specific points later on?}
+
 
 
 \bigbreak
-\textbf{Assumptions about the participating parties}: \ber{a} There are several parties which want to collaborate. These parties have \ber{b} neither trust in each other nor \ber{c} trust in any third party. They furthermore \ber{d} want to keep their business process secret, \ber{e} hide with whom they are collaborating and \ber{f} hide what messages are exchanged during the collaboration. Since the parties distrust each other they also \ber{g} only want to share messages with the entities that have to see them and keep them secret from the others. Each party \ber{f} is "honest but curious" \textbf{[ref]}. They follow the protocol, but will try to collect as much information as possible. 
+\textbf{Assumptions about the participating parties}: \ber{a} There are several parties which want to collaborate. These parties have \ber{b} neither trust in each other nor \ber{c} trust in any third party. They furthermore \ber{d} want to keep their business processes secret, \ber{e} hide with whom they are collaborating and \ber{f} hide what messages are exchanged during the collaboration. Since the parties distrust each other they also \ber{g} only want to share messages with the entities that have to see them and keep them secret from the others. Each party \ber{f} is "honest but curious" \todo{cite a reference here}. They follow the protocol, but will try to collect as much information as possible. These assumptions justify that we aim to keep all levels mentioned in \refsec{subsec:privacy} \todo{when refering to a subsection, do I have to write subsection x.y?} private. To be more specific, \ber{d} requires a private \ber{Model Level}, \ber{e} a private \ber{Communication Level} and \ber{f} a private  \ber{Content Level}.
 
-
-
-\textbf{Mention} \ber{x} $ \rightarrow $ to layers from \refsec{subsec:blockchainbased}
 
 \bigbreak
 \textbf{Further assumptions:}
