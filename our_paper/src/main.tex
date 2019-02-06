@@ -12,7 +12,6 @@
 % Used for displaying a sample figure. If possible, figure files should
 % be included in EPS format.
 %\usepackage{comment}
-\newcommand{\comment}[1]{}
 %\usepackage{lettrine} % if you want the first letter to be \letterine{b}{igger}
 % If you use the hyperref package, please uncomment the following line
 % to display URLs in blue roman font according to Springer's eBook style:
@@ -27,9 +26,15 @@
 \newcommand{\reftab}[1]{Table~\ref{#1}}
 \newcommand{\refsec}[1]{Section~\ref{#1}}
 
+%\newcommand{\noteme}[1]{}
+\newcommand{\noteme}[1]{\todo{#1}}
+\renewcommand{\note}[1]{\todo{#1}}
+\renewcommand{\bigbreak}{}
+
+
 \begin{document}
 %
-\title{Towards private Active Choreographies on public blockchain}
+\title{Towards private Active Choreographies on public blockchain }
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -38,7 +43,7 @@
 \author{Henry Bergstroem\inst{1} \and
 Jan Mensch\inst{1, 2}}
 %
-\authorrunning{F. Author et al.}
+\authorrunning{H. Bergstroem and J. Mensch}
 % First names are abbreviated in the running head.
 % If there are more than two authors, 'et al.' is used.
 %
@@ -46,44 +51,36 @@ Jan Mensch\inst{1, 2}}
 \institute{Hasso-Plattner-Institut, Prof.-Dr.-Helmert-Straße 2-3, 14482 Potsdam, Germany 
 \email{	bergstroem@uni-potsdam.de}
 \and
-University of Potsdam, Am Neuen Palais 10, 14469 Potsdam, Germany  \\
+University of Potsdam, Am Neuen Palais 10, 14469 Potsdam, Germany   \\
 \email{jan.mensch@uni-potsdam.de}}
 
 %
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-
-    Make it clear that we are talking about an implementation of ACs, not the BPMN standard!
-    
-    \todo{write abstract}
-    
-    We are working towards implementing a realization of ACs, that implements some visibility constraints that you would usually see in real-world applications, like confidential data and transactions.
-
+    Integrating business processes has been found to have a positive impact on operational and business performance \cite{flynn2010impact,narayanan2011antecedents}. However if business partners have no trust in each other, integrating processes is challenging \cite{panayides2009impact}. In this paper we present our approach of working towards a realization of Active Choreographies that is in no need of trust and can enforce a business process, while still implementing strong visibility constraints that would usually be seen in real-world applications. These constraints keep the business logic, the identity of a messages originator and the content of their communication secret. This is done while still being able to record an encrypted audit trail, where messages are only readable by parties that are allowed to read them. We also make a prototype available, which showcases our proposed schema.
 \end{abstract}
 
 \section{Introduction} \label{sec:intro}
 
-Integrating business processes has been found to have a positive impact on the operational and business performance \cite{flynn2010impact,narayanan2011antecedents}. However a lack of trust between business partners is hindering such progress \cite{panayides2009impact}. By proposing a solution that needs neither trust between participants, nor trust in any central authority and keeps the business done secret, we hope to further increase collaboration between businesses. As shown by Weber et al. in \cite{weber2016untrusted}, there are ways to extend the use cases of business process execution and auditing to an untrusted environment, thus making it possible for entities to collaborate with each other that would usually not be willing to do so. This execution of untrusted business processes is made possible by using an blockchain-based implementation \todo{Implementation of ACs, not the modeling standard} of Active Choreographies, which we will briefly discuss in \refsec{subsec:blockchainbased}.\footnote{Phrasing and sources of the Introduction where in part taken from \cite{weber2016untrusted}} 
+Integrating business processes has been found to have a positive impact on operational and business performance \cite{flynn2010impact,narayanan2011antecedents}. However a lack of trust between business partners is hindering such progress \cite{panayides2009impact}. By proposing a solution that needs neither trust between participants, nor trust in any central authority and keeps the business done secret, we hope to further increase collaboration between businesses. As shown by Weber et al. in \cite{weber2016untrusted}, there are ways to extend the use cases of business process execution and auditing to an untrusted environment, thus making it possible for entities to collaborate with each other that would usually not be willing to do so. This execution of untrusted business processes is made possible by using an blockchain-based implementation of Active Choreographies, which we will briefly discuss in \refsec{subsec:blockchainbased}.\footnote{Phrasing and sources of this paragraph where in part taken from \cite{weber2016untrusted}} 
 
-The goal \todo{Quick motivation. Can this stay in the introduction?} of this paper is to explore the notions of privacy and visibility with regards to untrusted execution of choreographies on the blockchain and to introduce a schema which aims to keep untrusted business process execution \todo{untrusted b.p. execution from Weber. Do I need to define this?} private, while still being enforceable. The structure of the paper is as follows: Introduction (\refsec{sec:intro}).  Background (\refsec{sec:background}), where we will give a short introduction over the work we considered when creating our solution. Approach (\refsec{sec:approach}). An overview of the proposed solution. Evaluation (\refsec{sec:eval}),  where we introduce our implementation. Discussion (\refsec{sec:discussion}). An summary over limitations, alternative implementations and future work and the Conclusion (\refsec{sec:conclusion}).
-
-
-
-
-
-\todo{if this is too short, bring up blockchain?}
+The goal of this paper is to explore the notions of privacy and visibility with regards to untrusted execution of choreographies on the blockchain and to introduce a schema which aims to keep untrusted business process execution private, while still being enforceable. The structure of the paper is as follows: Introduction (\refsec{sec:intro}).  Background (\refsec{sec:background}), where we will give a short overview of the work we considered when creating our solution. Approach (\refsec{sec:approach}). A brief explanation of the architecture of the proposed solution. Implementation (\refsec{sec:eval}) and the discussion (\refsec{sec:discussion}). A summary over limitations, alternative implementations and future work. Conclusion (\refsec{sec:conclusion}).
 
 
 \section{Background} \label{sec:background}
 
 \subsection{Blockchain-Based choreographies} \label{subsec:blockchainbased}
 
-basically a more specific Introduction
+The following section provides a short introduction to blockchain-based choreographies. 
 
-what did Ingo do?
+\textbf{Active Mediators.} In \cite{weber2016untrusted} Weber et al. explain how a business process can be enforced in an environment where the participants do not trust each other. By using a smart contract\footnote{A program which is being executed on a blockchain}, acting as an active mediator between participants. The term active mediator implies that the component is able to accept or reject messages and makes sure that the business process is executed as specified. With the help of this and other components they are able to (I) execute collaborative processes over a network of untrusted nodes, (II) enforce that only conforming messages can trigger state changes, (III) payments and escrows can be coded in the business process and (IV) an immutable audit trail keeps track of all transaction. Furthermore none of the participants in the business process has to organize the collaboration, which is what differentiates a choreography from a orchestration. The approach introduced in \cite{weber2016untrusted} is different from ours in the sense that in their implementation the business process is included in the smart contract, which makes it public. It displays which participants are collaborating with each other, how they are doing it and what messages are exchanged. We aim to provide privacy and try to hide the logic of the business process, who the originator of a message is  and what messages are exchanged, while still providing that (I), (II) and (IV) hold.
 
-what did Jan do?
+
+\textbf{Active Choreographies.} In \cite{ladleif} Ladleif builds on the work of Weber et al. and creates an extension of the Business Process Model and Notation (BPMN) 2.0 choreography diagrams in combination with Ethereum. The introduced addition to the BPMN standard is capable of modeling events, scripts and data, which are vital to the modeling of smart contract driven choreographies. This extension is called Active Choreographies. Like   Weber et al., Ladleif uses smart contracts as a central link between the collaborating parties. Messages are not exchanged directly between the entities, but through the smart contract. This schema allows for business process execution without the need of trust between the participating businesses. 
+
+
+In this paper we work towards realizing Active Choreographies, which are in no need of trust and can enforce a specified business logic. Our addition to the work of Weber et al. and Ladleif is that we additionally aim to provide strong visibility constraints. We are therefore working towards private Active Choreographies on public Blockchain infrastructure. 
 
 
 
@@ -95,12 +92,12 @@ While the issue of privacy was mentioned by Weber et al. and Ladleif, they did n
 
 
 \begin{itemize}
-    \item \ber{Model level}: The logic of the business process. If you would model a business process using BPMN, the BPMN model would be the model layer. If you would implement it using a programming language, the source code would be the model layer.
-    \item \ber{Communication level}: The knowledge of which messages were exchanged, who exchanged them and which entities are part of the business process. Latleif also includes the time at which messages were send. For the scope of this publication, we would like to exclude the time of an exchanged message from the communication level.
-    \item \ber{Content level}: The content of the exchanged messages.
+    \item \ber{Model Level}: The logic of the business process. If you would model a business process using BPMN, the BPMN model would be the model layer. If you would implement it using a programming language, the source code would be the model layer.
+    \item \ber{Communication Level}: The knowledge of which messages were exchanged, who exchanged them and which entities are part of the business process. Latleif also includes the time at which messages were send. For the scope of this publication, we would like to exclude the time of an exchanged message from the communication level.
+    \item \ber{Content Level}: The content of the exchanged messages.
 \end{itemize}
 
-We are referring to these levels when discussing the assumptions that our approach is based on in \refsec{subsec:assumptions} and also in \refsec{subsec:schema}, when we discuss our proposed solution. \todo{I do not want to repeat the motivation for why we need the levels. Is this ok?}
+We are referring to these levels in \refsec{subsec:assumptions} when discussing the assumptions that our approach is based.
 
 
 
@@ -109,25 +106,24 @@ We are referring to these levels when discussing the assumptions that our approa
 
 \subsection{Privacy Enhancing Technologies} \label{subsec:technologies}
 
-\textbf{Privacy Enhancing Technologies on the Blockchain}. Our implementation aims to provide privacy for all three layers. We considered multiple other technologies that are \todo{Do we need to tell the reader why we mention this?} worth mentioning and could be a viable alternative to our approach. \todo{try to be a bit more high-level, not too focused on possible solutions}
+\textbf{Privacy Enhancing Technologies on the Blockchain}. Our implementation aims to provide privacy for all three layers. We considered multiple other technologies that are  worth mentioning and could be a viable alternative to our approach. 
 
-One of them is \textit{obfuscation}. This is a technology that "aims to make a computer program 'unintelligible' while preserving its functionality" \cite{garg2016candidate}. Since it was shown in \cite{barak2001possibility,barak2012possibility} that there is a set of functions that are impossible to obfuscate, the idea of indistinguishable obfuscation was introduced. This is a weaker constraint, guaranteeing that it is impossible to distinguish two equivalent programs that have been obfuscated. These ideas seem to be very powerful, but come with a big drawback: Being extremely computationally expensive \cite{banescu2015idea}. \todo{do I need a line break here or can I just write one long paragraph?}
+One of them is \textit{obfuscation}. This is a technology that "aims to make a computer program 'unintelligible' while preserving its functionality" \cite{garg2016candidate}. Since it was shown in \cite{barak2001possibility,barak2012possibility} that there is a set of functions that are impossible to obfuscate, the idea of indistinguishable obfuscation  was introduced. This is a weaker constraint, guaranteeing that it is impossible to distinguish two equivalent programs of a similar size that have been obfuscated. These ideas seem to be very powerful, but come with a big drawback: Being extremely computationally expensive \cite{banescu2015idea}. 
 
-\textit{Homomorphic encryption} might be used to do calculations on encrypted values \todo{source}. Similar to obfusaction, homomorphic encryption suffers from heavy computational overhead \todo{source}.
-
-
-A further technology considered is \textit{secure multi-party computation (SMPC)} \cite{orlandi2011multiparty}. With SMPC, there are are multiple parties involved in computing the output of a function. These parties do not have to trust each other. They thus need a protocol that makes sure that the output is correct and that cheating participants will not be able to learn anything about the input of the honest parties. \todo{Should we really not tell the reader why we consider this a nice technology for our purpose? Or does all of this go into the Discussion (for all technologies)?}
+\textit{Homomorphic encryption} might be used to do calculations on encrypted values. Similar to obfusaction, homomorphic encryption suffers from heavy computational overhead \cite{gentry2010computing}.
 
 
-A technology already in use in blockchain applications are zero-knowledge Succinct Non-interactive ARguments of Knowledge (zk-SNARKs). An application using it is Zerocoin, which aims to provide "fully anonymous currency transactions" \cite{miers2013zerocoin}. zk-SNARKS provide the possibility to have an untrusted prover verify a statement (or secret) made by a different party, without that party having to reveal their secret \cite{ben2013snarks}. It furthermore does so in a non-interactive manner. 
+A further technology considered is \textit{secure multi-party computation (SMPC)} \cite{orlandi2011multiparty}. With SMPC, there are are multiple parties involved in computing the output of a function. These parties do not have to trust each other. Therefore they need a protocol that makes sure that the output is correct and that cheating participants will not be able to learn anything about the input of the honest parties. 
 
 
-
-Also already applied in the context of blockchain applications are \textit{Ring Signatures}. This is a signature created using the public keys of multiple parties. It can be used to verify that a message was send by one of the parties, without revealing which of them was the sender. For this the sender "does not need the knowledge, consent, or assistance" of anyone else in the group  \cite{rivest2001leak}. In Monero this technology, together with one-time keys, is used to hide the identity of the sender and the receiver of a transaction  \cite{noether2016ring}.
+A technology already in use in blockchain applications are \textit{zero-knowledge Succinct Non-interactive ARguments of Knowledge (zk-SNARKs)}. An application using it is Zerocoin, which aims to provide "fully anonymous currency transactions" \cite{miers2013zerocoin}. zk-SNARKS provide the possibility to have an untrusted prover verify a statement (or secret) made by a different party, without that party having to reveal their secret \cite{ben2013snarks}. It furthermore does so in a non-interactive manner. 
 
 
 
-Today there exist already multiple projects that focus on business process execution \todo{citations of those projects}. Some of them provide mechanisms aiming to create trust between participants \todo{Give example. Explain how they provide that trust?}. A further already existing implementation is  \textit{parity ethereum}. With parity, users are able to hide private contracts in public contracts and to exchange private messages \cite{parity}.
+
+
+
+Today there exist already multiple projects that focus on business process execution (e.g. Hyperledger Grid \cite{hyperledger}). Some of these implementations provide mechanisms aiming to create trust between participants. One of them is \textit{parity ethereum}. With parity, users are able to hide private contracts in public contracts and to exchange private messages \cite{parity}.
 
 \comment{However for private contract execution parity is relying on validators, "account[s] that can allow a private contract’s state [to] change" \cite{parity}. In our understanding this makes parity insufficient for untrusted business execution, since, like private blockchains, it requires trust in one or multiple nodes. 
 }
@@ -139,106 +135,177 @@ Today there exist already multiple projects that focus on business process execu
 
 \subsection{Assumptions and Scenario} \label{subsec:assumptions}
 
-Before introducing our schema, we would like to mention the assumptions on which our proposal is based on. Each premise is marked for potential later reference. \todo{do I need this? Am I referring to any of the specific points later on?}
+Before introducing our schema, we would like to mention the assumptions on which our proposal is based on. Each assumption is marked with a letter for later reference. 
 
 
 
 \bigbreak
-\textbf{Assumptions about the participating parties}: \ber{a} There are several parties which want to collaborate. These parties have \ber{b} neither trust in each other nor \ber{c} trust in any third party. They furthermore \ber{d} want to keep their business processes secret, \ber{e} hide with whom they are collaborating and \ber{f} hide what messages are exchanged during the collaboration. Since the parties distrust each other they also \ber{g} only want to share messages with the entities that have to see them and keep them secret from the others. Each party \ber{h} is "honest but curious" \todo{cite a reference here}. They follow the protocol, but will try to collect as much information as possible. These assumptions justify that we aim to keep all levels mentioned in \refsec{subsec:levels} \todo{when refering to a subsection, do I have to write subsection x.y?} private. To be more specific, \ber{d} requires a private \ber{Model Level}, \ber{e} a private \ber{Communication Level} and \ber{f} a private  \ber{Content Level}.
-
+\textbf{Assumptions about the participating entities}: \ber{a}: there are several parties which want to collaborate. These parties have \ber{b} neither trust in each other nor \ber{c} trust in any third party. They furthermore \ber{d} want to keep their business processes secret, \ber{e} hide with whom they are collaborating and \ber{f} hide what is being communicated during the collaboration. Since the parties distrust each other they also \ber{g} only want to share messages with the entities that have to see them and keep them secret from the others. Each party \ber{h} is "honest-but-curious"\footnote{Definition honest-but-curious: "The honest-but-curious (HBC) adversary is a legitimate participant in a communication protocol who will not deviate from the defined protocol but will attempt to learn all possible information from legitimately received messages."\cite{paverd2014modelling}}. These assumptions justify that we aim to keep all levels mentioned in \refsec{subsec:levels} private. To be more specific, \ber{d} requires a private \ber{Model Level}, \ber{e} a private \ber{Communication Level} and \ber{f} a private  \ber{Content Level}.
 
 \bigbreak
 \textbf{Further assumptions:}
-\ber{i} All data that is processed on the blockchain is considered public. It is \ber{j} possible to convert a business process into a program or state-machine in order for parties to determine that validity of a state change. \ber{k} In terms of trust, a public blockchain is superior to a private one, since it does not require trust in the organisation that runs the network. \ber{l} A network that employs "policing notes" \footnote{Nodes that have the special role of enforcing rules or similar tasks} is considered inferior to a network without such nodes, since such a network requires "trust in the authorities".
+\ber{i}: all data that is processed on the blockchain is considered public. It is \ber{j} possible to convert a business process into a program or state-machine in order for parties to determine the validity of a state change. The process of converting a business process into a program or state-machine is out of the scope of this paper. \ber{k}: in terms of trust, a public blockchain is superior to a private one, since it does not require trust in the organisation that runs the network. \ber{l}: a network that employs "policing nodes"\footnote{Nodes that have the special role of enforcing rules.} is considered inferior to a network without such nodes, since such a network requires "trust in the authorities". Communication between nodes is done \ber{m} on a message based system where the metadata of a message does not contain the address of the message sender.
 
-
-
-\begin{figure}[h!]
+\begin{center}
+\begin{figure}
     \centering
-    \includegraphics[scale=0.6]{bpmn.png}
+    \includegraphics[trim=0cm 9.5cm 11.5cm 2.4cm,clip=true,scale=0.65]{newbpmn.pdf}
     \caption{Choreography diagram of a pizza ordering process} 
     \label{fig:simple_bpmn}
 \end{figure}
+\end{center}
 
+%\noteme{process send pizza is supposed to be between pizza place and delivery boy.}
 
-Throughout this paper we will try to present our thoughts in more concrete fashion by applying them to the example shown in \reffig{fig:simple_bpmn}. Here the parties are collaborating without trust (\ber{a}, \ber{b} and \ber{c}). They also have an urge to keep as much as possible about their collaboration secret (\ber{d}, \ber{e} and \ber{f}). An example of \ber{g} and \ber{h} would be that \textit{D} \todo{Could you please make a version with capitalized abbreviations? E.g. Delivery Boy to D.}
- should not know anything about the collaboration between \textit{W} and \textit{P}, even though \ber{D} is part of the overall business process. 
+Throughout this paper we will try to present our thoughts in more concrete fashion by applying them to the example shown in \reffig{fig:simple_bpmn}. Here the parties are collaborating without trust (\ber{a}, \ber{b} and \ber{c}). They also have an urge to keep as much as possible about their collaboration secret (\ber{d}, \ber{e} and \ber{f}). An example of \ber{g} and \ber{h} would be that the \textit{Delivery Boy} (\ber{D})
+ should not know anything about the collaboration between the \textit{Customer} (\ber{C}) and the \textit{Pizza Place} (\ber{P}), even though \ber{D} is part of the overall business process. 
 
 
 
 \subsection{Proposed Schema} \label{subsec:schema}
 
-In this chapter we discuss our proposed schema. We will do so by introducing mechanisms which each solve one or more of the premises of \refsec{subsec:assumptions} \todo{section x will combine all mechanisms}.
+In this chapter we discuss our proposed schema. We will do so by introducing mechanisms which each solve one or more of the assumptions of \refsec{subsec:assumptions}.
 
-\bigbreak
-\textbf{Circles.} In order to solve premise \ber{g} and (in part) \ber{h}, we introduce the notion of circles. Circles are visibility constraints for a group of entities. A message exchanged within a circle can only be read by other participants of a circle. We achieve this by using symmetric keys which are exchanged between the members of a circle before the execution of the process. This can be done by using established processes like \todo{openPGP? Find source!}. Which parties are within which circle should be established by the parties themselves and is therefore out of scope of this paper. \reffig{fig:circles} shows an example of possible circles of the process defined in  \reffig{fig:simple_bpmn}. Each circle has its own associated symmetric key and each message is encrypted with that key. This way \ber{D} cannot read the communication between \ber{W} and \ber{P}. Also the message can still be included in the audit trail, since only \ber{W} and \ber{P} can read it. This encryption keeps the \ber{Content Layer} of the process secret (premise \ber{f}).
 
-\begin{figure}[h!]
+
+\textbf{Circles.} In order to solve assumption \ber{f}, \ber{g} and (in part) \ber{h}, we introduce the notion of circles. Circles are visibility constraints for a group of entities. A message exchanged within a circle can only be read by other participants of a circle. We achieve this by using symmetric keys which are exchanged between the members of a circle before the execution of the process. This can be done by using well established processes like the session key exchange in openPGP \cite{openpgp}. Which parties are within which circle should be established by the parties themselves and is therefore out of scope of this paper. \reffig{fig:circles} shows an example of possible circles of the process defined in  \reffig{fig:simple_bpmn}. Each circle has its own associated symmetric key and each message is encrypted with the respective key. This way \ber{C} cannot read the communication between the \ber{Wholesaler} (\ber{W}) and \ber{P}, because this communication is encrypted with ${sym}_2$ and \ber{C} is only in possession of ${sym}_1$. Also the message can still be included in the audit trail, since only members that are in possession of ${sym}_2$ can read it.\footnote{Credit: key-icons in \reffig{fig:circles} made by Yannick (http://yanlu.de) from www.flaticon.com}
+
+
+\begin{center}
+\begin{figure}
     \centering
-    \includegraphics[scale=0.6]{cicles.png}
-    \caption{Circles for of the process described in \reffig{fig:circles}} 
+    \includegraphics[trim=5cm 5cm 6cm 5.6cm,clip=true,scale=0.5]{circles.png}
+    \caption{Circles for of the process described in \reffig{fig:circles}. The circles indicate who is communicating with whom and who should see the content of the exchanged communication.} 
     \label{fig:circles}
 \end{figure}
+\end{center}
 
-\todo{write abbreviation in the illustration. Make it black and white.}
-
-
-\bigbreak
-\textbf{Protecting the Model Layer.} Since we consider all communication and all code execution on the blockchain as public (premise \ber{i}), we decided to store and execute the logic off-chain. This is in order to keep the \ber{Model Layer} secret (premise \ber{d}). The representation of the business process is shared amongst all entities. This could be a graph or executable code. This representation should vary in detail, hiding the details of the process that are out of the own circle. How this representation looks like exactly and how it is shared is out of scope of this paper.
 
 
 \bigbreak
-\textbf{Consensus mechanismn} Since we store the logic of the business process of chain, a smart 
-\todo{I explain our schema by using an example. Do I need to add a more formal description?} contract \footnote{A program which is being executed on a blockchain} has no way of knowing if a proposed state-change is valid or not \todo{Where should I explain that we view bp as state-machine?}. This is why we to created a simple consensus mechanism for the nodes and created a smart contract that is able to reject messages that did no result out of this consensus mechanism. If both of these things are given a smart contract is able to enforce a business process without being aware of its logic.
+\textbf{Protecting the Model Layer.} Since we consider all communication and all code execution on the blockchain as public (assumption \ber{i}), we decided to store and execute the logic off-chain. This is in order to keep the \ber{Model Layer} secret (assumption \ber{d}). The representation of the business process is shared amongst all entities. This could be a graph or executable code (assumption \ber{j}). This representation should vary in detail, hiding the details of the process that are out of the own circle. How this representation looks like exactly and how it is shared is out of scope of this paper.
 
 
-\begin{figure}[h!]
+\bigbreak
+\textbf{Consensus mechanism.} Since we store the logic of the business process off-chain, a smart contract has no way of knowing if a proposed state change is valid or not. This is why we came up with a simple consensus mechanism for the nodes and created a sc that is able to reject messages that did not result out of this consensus mechanism. If both of these things are given a smart contract is able to enforce a business process without being aware of its logic. 
+
+In our opinion a business process can be viewed as a state-machine. In it, states are actions that are taken by the entities (e.g. "send pizza") and state changes are triggered by messages (e.g. "W is now hands over 1kg of flour, ordered by P" changes the state from "order ingredients" to "deliver ingredients"). If the state machine is automated on each client, invalid messages can be rejected and the business process enforced.\footnote{We will briefly discuss limitations of this though in \refsec{sec:discussion}.}
+
+\begin{center}
+\begin{figure}
     \centering
-    \includegraphics[scale=0.09]{schema.jpg}
-    \caption{The proposed schema} 
+    \includegraphics[trim=13cm 4cm 0cm 3cm,clip=true,scale=0.5]{schema.pdf}
+    \caption{The proposed schema. 1: initial sending of cypher. 2-5: other nodes give consent. 6: cypher and signatures are send to smart contract. 7: validation} 
     \label{fig:schema}
 \end{figure}
+\end{center}
 
-\reffig{fig:schema} shows such a mechanism. It is displayed how \ber{C} would like to propose a state-change (e.g. ordering a pizza). For that \ber{C} creates the message \ber{msg} (e.g. "send pizza magarita now!"). This message is encrypted using the symmetric key \ber{sym} of his circle. The encrypted message is denoted as \ber{cypher}. As a first step, \ber{C} is then sending the cypher to a random node, e.g. \ber{P} (we explain the necessity of this step in \refsec{subsec:furtherinfo}). Since \ber{P} happens to be in the same circle as \ber{C}, he can read the cypher by decrypting it with the symmetric key of his circle. Nodes that are within the same circle and can read the message can give their consent by adding their signature. If a node does not give consent, the message will be rejected by the smart contract. The entities then have to communicate to resolve the issue. 
 
-\todo{order in circle is always the same}
+\reffig{fig:schema} shows such a mechanism\footnote{contract-icon in the \reffig{fig:schema} made by Freepik (http://www.freepik.com) from www.flaticon.com}. In it all nodes are placed in a ring\footnote{not to be confused with a ring-signature \cite{rivest2001leak}}. In this example communication is done counterclockwise. The order in which communication is done is fix. Just the start- and endpoint vary. As already discussed, all nodes are in possession of the symmetric keys of their associated circles. In addition to that they also own a asynchronous key-pair of which their public key is published on the smart contract.
 
-A creates consent by applying a hash function to a value and then encrypting this hashed value with his private key. The combination of these functions is denoted as $S_x$. $x$ is the respective node. The value is the previous signature or, if that does not exist, \ber{cypher}. A node that is not in the circly does not receive any new information since it is not able to read the message. It is also unable to know who the originator of the message is \ber{C} send it to a random node to start the procedure. A node will also not be able to know how many other nodes already "agreed"\footnote{We write "agreed" since nodes outside the circle cannot read the message and simply pass it on.} to the message, we nest signatures and do not combine them.
+It is displayed how the \ber{Customer (C)} would like to propose a state change (e.g. from the "start-state" to "order pizza"). For that, \ber{C} creates the message \ber{msg} (e.g. "C: order pizza margarita for 8 EUR."). This message is encrypted using the symmetric key ${sym}_1$ of his circle. The encrypted message is denoted as \ber{cypher}. As a first step, \ber{C} is then sending \ber{cypher} to a random node, e.g. \ber{P} (we explain the necessity of this step in in the next paragraph). Since \ber{P} happens to be in the same circle as \ber{C}, he can read \ber{cypher} by decrypting it with ${sym}_1$. 
 
-\todo{works only if nobody knows from whom a message is}
 
-If all nodes agreed \ber{cypher} and the combined signatures will be at \ber{P} again. Since \ber{P} has already seen \ber{cypher} he will send it to the smart contract for validation. If the validation passes, the nodes will know that they reached a new state in their business process, but only \ber{C} and \ber{D} will know what state this is.
 
+\ber{P} can now signal his consent by applying a hash function to \ber{cypher} and then encrypting this hashed value with his private key. The combination of these functions for the signing process is denoted as $S_X$. $X$ is the name of respective node. A node that is not in the circle does not receive any new information since it is not able to read the message. It is also unable to know who the originator of the message is, since the originator sends it to a random node to start the procedure. If this was not the case and \ber{C} would send \ber{cypher} the next node in line (\ber{D}), \ber{D} would know that \ber{C} is the message sender, since the order of nodes is known to all entities. We do this to counter assumption \ber{b} and \ber{h} and with the premise that assumption \ber{m} holds.
+
+\comment{
+Furthermore, a node will also not be able to know how many other nodes already "agreed" to the message, because we "nest" signatures instead of just appending them to a list. This way it is impossible to simply count the number of signatures, send together with \ber{cypher}. We do all of this to counter assumption \ber{b} and \ber{h} and with the premise that assumption \ber{m} holds.
+}
+
+If all nodes "agreed"\footnote{We write "agreed" since nodes outside the circle cannot read the message and simply pass it on.} to \ber{cypher}, \ber{cypher} and the signatures will reach \ber{P} again. Since \ber{P} has already seen \ber{cypher} he will send it to the smart contract for validation, together with all signatures and the information that he was the first node to add a signature (\ber{start\_node=P}). If the validation passes, the nodes will know that they reached a new state in their business process, but only \ber{C} and \ber{P} will know what state this is.
 
 
 
 \subsection{Validation} \label{subsec:furtherinfo}
 
-\ber{h} honest but curious
-why it is necessary to send cypher to P first.
+The smart contract receives \ber{cypher}, a list of signatures and the information that \ber{P} started the signing process. The sc can now decrypt each signature using the public key of each of node in the circle. If all encrypted signatures match the hash of \ber{cypher} the state change is valid. \ber{cypher} is then included in the audit trail and all clients know that a new state was reached, but only \ber{C} and \ber{P} will know which state this is, since only they are in possession of ${sym}_1$. This way an audit trail is kept in which messages can only be read by entities that are supposed to read them.
 
 
+\section{Implementation} \label{sec:eval}
 
-\section{Evaluation} \label{sec:eval}
 
-implementation
+In order to evaluate our thoughts, we build a simplified version of the schema discussed in \refsec{fig:schema}. To implement the clients we used Python 3.6. To implement the smart contract, we used Solidity running on a local Ethereum Blockchain on Ganache. Our implementation is able to simulate a ring with three nodes. If all nodes confirm the encrypted message by signing it, the encrypted message and the signatures are send to the smart contract for validation. Out of the three clients, two are in the same circle. This is to showcase the visibility constraints of circles. 
+
+So far we did not implement the automatic accept- or reject-mechanism that is necessary to enforce a business process. With the current prototype a user has to accept or reject the proposed state change manually. 
+
+Also topic of future work is the algorithm deciding to which random node an encrypted message should be send to at the first step of the schema. With the current implementation the client just sends it to the next node in line. We avoided the the topic of choosing a random node, because in our opinion this should be done not by the message originator, but by the entire group. This is to avoid the danger that a node might choose a different node not at random but with the intention to somehow cheat on the system. Since distributed algorithms are difficult to develop and this is just a minor detail of the schema, we decided to implement it as future work.
+
+
+\comment{
+done: 
+simple implementation 
+simulating a simple ring with 3 clients 
+2 clients are within the same circle 
+smart contract has public and is able to verify messages send from the ring
+
+Not done: 
+randomization. A client will not send the message of to a new node, rather just to the next one in line
+
+Automatic accept/reject of messages send from node to node. User has to do that at current time.
+
+architecture: 
+Clients implemented in Python 3.6
+
+smart contract implemented using Solidity
+
+Application was tested using the local Ethereum application Ganache
+
+}
 
 
 \section{Discussion} \label{sec:discussion}
 
-\begin{itemize}
-    \item shortcomings
-    \item How could mentioned in \refsec{subsec:technologies} improve \refsec{sec:eval}?
-    \item How did it work out in the end? 
-    \item private blockchain
-    \item Parity
-    \item future work
-\end{itemize}
+\subsection{Limitations of the proposed Schema}
+
+There are a number of shortcomings in the approach we introduces in \refsec{subsec:schema}. In this chapter we would like to name the ones that we noticed.
+
+\bigbreak
+\textbf{Collusion of all entities within a circle.} The goal of our approach was to enforce a business process, while keeping the \ber{Model Layer}, the \ber{Communication Layer} and the \ber{Content Layer} secret. We try to achieve this by automatically rejecting illegal state changes. If an entity encounters a message proposing an impossible state change it should reject it (at least if it is able to read that message). A possible misuse of this system is that all entities within a circle collaborate and pass invalid state changes. It is debatable though, if this behaviour should be prevented. Messages passed within a circle should be only relevant for the parties within that circle. If the deviation from the defined business process is agreed upon by all parties within the circle, this would be equivalent of renegotiating the terms of the collaboration. For example, \ber{C} might sends the message "send pizza margarita for 6 EUR", even thought the price might have been defined as 8 EUR in the business process. If \ber{P} now accepts it, they just renegotiated their terms. The way the business process is enforced is therefore rather soft. 
 
 
+\bigbreak
+\textbf{Knowledge of progress within the consensus mechanism.} During the consensus mechanism every entity is adding their signature to the message which is passed around. Because the sc has to know all public keys in order to verify messages, the number of participants is known to all entities. Every node who receives this message will therefore be aware of how important their consent it (premise \ber{h}). This knowledge might be abused and should be avoided. Solving this issue is the topic of future work.
+
+
+\bigbreak
+\textbf{Blocking progress.} Any node can decide to not sign any more messages and block the progressing of the business process. We hope that this issue will not occur very often, because the nodes that are participating in the business process should have an interest in the successful execution of that progress (assumption \ber{a}).
+
+
+\bigbreak
+\textbf{Powerful nodes.} Depending on the business process and the participating parties, it might happen that there is an party that accumulates a lot of knowledge. In our case this is \ber{P}, who can see all messages exchanged, because he is a member in both circles. This may or may not be seen as a problem by the other participants. This issue should be taken into account when designing the visibility constraints of the business process. 
+
+
+\bigbreak
+\textbf{Spam.} If assumption \ber{m} holds and the nodes indeed do not know who the originator of a message is, this opens the door for spam messages. An outsider could send a message, encrypted with an unknown key to a member of the ring. That member would pass the message along, assuming that he can not read it because he is not part of the same circle as the originator of the message. So would all other nodes in the ring and the message would be varified by the sc and stored on the blockchain. Depending on which blockchain is used, storing data on it might be expensive. An outsider might therefore be able to increase the price of the business process execution. This should be avoided! A possible solution to this might be to have all nodes create a second key-pair and to only exchange those public keys within the ring. These public keys might then be used to create a ring signature \cite{rivest2001leak}, which would prove that the originator of a message is indeed part of the ring. The "original" public keys could not be used for this task, since they are encoded in the sc and are therefore public knowledge (assumption \ber{i}). The exploration of this idea is the topic of future work.
+
+
+
+
+
+\subsection{Alternative approaches}
+
+Some of the technologies mentioned in \refsec{subsec:technologies} might be used to provide privacy. For example zk-SNARKs might be used to prove that a state change is legal. If that would be possible, we might be able to design a protocol where the communication overhead between the nodes could be drastically reduced. 
+
+%\todo{write about ofuscation?}
+
+We were only able to read about a few of the many blockchain-implementations that take on the issue of privacy. The one implementation that caught our attention was parity ethereum, which is why we mentioned it in \refsec{subsec:technologies}. As already discussed, users are able to create private contracts and to exchange private messages. However one difference between our approach and parity is that parity needs specialized nodes in order to execute private contracts. These nodes are called validators, which are "account[s] that can allow a private contracts state change" \cite{parity}. In our opinion this trust in specialized nodes makes parity unfit for untrusted business process execution (assumption \ber{l}).
+
+\comment{
+We would also like to mention parity ethereum. With parity, users are able to hide private contracts in public contracts  and to exchange private messages. However for private contract execution parity is relying on validators, "account[s] that can allow a private contract's state change" \cite{parity}. In our understanding this makes parity unfit for for untrusted business process execution, since, like private blockchains, it requires trust in one or multiple nodes.
+
+\todo{parity comparison}
+}
 \section{Conclusion} \label{sec:conclusion}
 
-final words
+\comment{
+\begin{itemize}
+    \item How could mentioned in \refsec{subsec:technologies} improve \refsec{sec:eval}?
+    \item How did it work out in the end? 
+\end{itemize}}
+
+In this paper we showed that it is possible to hide the logic of the business process, the communication and the content of the messages. This was achieved on public blockchain infrastructure to avoid the trust issues that are, in our opinion, inherent to private blockchains. We furthermore showed that a business process can be enforced without the smart contract being aware of its logic. Since this work is proprietary, there are multiple limitations to it. For some of these limitations solutions were proposed. We hope that this paper might be a first step towards private active choreographies on public blockchain.
+
 
 
 
