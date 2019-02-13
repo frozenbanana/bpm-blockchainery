@@ -3,3 +3,8 @@
 *.synctex.gz
 *.aux
 *.log
+*.bbl
+*.blg
+*.fls
+*.def
+*.pyc
