@@ -1,0 +1,45 @@
+just short notes
+
+questions: 
+    definition of first-to-file
+    page 9: why is error not detected at e74b?
+    what is a nonce? 
+    what is a uncle?
+    what is a Patricia tree?
+    page 33 I do not understand the second argument
+
+notes: 
+    sybil attacks: 
+        attacker inpercinates n nods 
+        tries to change consensus
+        proof-of-work is protection against it
+    bitcoin as state transition system [page 5]
+        state as a collection of transactions
+    how does state transition work [page 6]
+    how does mining work [page 7]
+    how does a 51% attack work? [page 8]
+    merkle tree [page 9]
+    nice application: use ethereum as value-binders [page 12]
+    [page 15] displays what the diff between ethereum and bitcoin is 
+        in terms of state transition function
+    [page 16] gives an example of an execution of a smart-contract
+    how does code execution work [page 17]:
+        EVM code
+        each byte represents an operation 
+        code execution is a inifinite loop, which repeatedly
+            carries out operation at current program counter
+        operations can store in stack, memory and storage
+    [page 15] diff between bitcoin and ethereum in mining
+    ...various possible applications...
+    [page 26] GHOST
+        protocol to avoid big mining pool to take over
+    argument for why we need fees 
+    argument for why we use support Turing-Completeness
+    [page 32] how to avoid minimg centralization
+    [page 34] distributed apps as two parts: 
+        low-level business-logic
+        nice UI in Browser
+    conclusion: 
+        by providing Turing-Completeness, we enabled a programmer to develop any app he
+        wants in a distributed fashion
+        ethereum can provide arbitrary state-transition function

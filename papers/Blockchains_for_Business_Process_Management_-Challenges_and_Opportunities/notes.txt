@@ -1,0 +1,48 @@
+Why is blockchain so great at managing inter-organization processes? 
+Because blockchain is concerned with reaching a consent among the nodes 
+this is what is needed to execute inter-company processes
+
+Throughput: 
+Very little throughput (7 transactions per second (tps) in Botcoin)
+less relevant in private/consortium blockchains
+
+latency
+5 confirmation blocks, to ensure the block was included in the main chain
+Bitcoin takes abt 65 min for a transaction
+Etherium about 3 to 10 min
+Improve latency by introducing Raiden and Lightning Network
+
+Size: 
+very many transactions mean that chain gets very large
+
+Usability: 
+hard to use/understand/develop
+
+Security:
+confidentiality low in distributed system
+-> solution: Kosba et al. 2016 
+integrity: good in blockchain
+availability: Good, in terms of read performance
+
+Wasted resources: 
+proof-of-work :(
+-> proof-of-stake Bethov et al.
+
+Hard forks: 
+can be issue in public blockchain
+
+Blockchain for BPMN: 
+pros:   
+    immutable ledger
+    independent process monitoring from global point of view
+    encrypt data that should not be visible to public
+
+3. Blockchain Technology and BPM Capabilities
+to be continued
+
+
+
+
+
+
+

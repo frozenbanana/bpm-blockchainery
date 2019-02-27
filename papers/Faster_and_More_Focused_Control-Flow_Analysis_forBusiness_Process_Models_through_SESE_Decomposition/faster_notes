@@ -1,0 +1,7 @@
+soundness: bpmn is correct, e.g. has no dead ends
+
+sese: single entry single exit
+meme: multiple-entry-multiple-exti
+
+why decomposition the graph? 
+	because it might then be easyer to check for soundness
