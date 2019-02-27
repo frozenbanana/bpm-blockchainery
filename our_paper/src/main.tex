@@ -136,24 +136,18 @@ However for private contract execution Parity is relying on validators,  \quotel
 
 \subsection{Assumptions and Scenario} \label{subsec:assumptions}
 
-Before the introduction of the scheme, the underlying assumptions and opinions are introduced. Each assumption is marked with a letter for later reference. Please note that the authors are aware that in reality not all of the assumptions will hold. The assumptions are listed to describe a setting where private active choreographies on public blockchain are possible.
+Before the introduction of the scheme, the underlying assumptions and opinions are introduced. Each assumption is marked with a letter for later reference. Please note that the authors are aware that in reality not all of the assumptions might hold. The assumptions are listed to describe a setting where private active choreographies on public blockchain are possible.
 
 \begin{itemize}
     \item \textit{Assumption about the visibility levels}: It is assumed that the participating entities want to keep all levels discussed in \refsec{subsec:technologies} secret. This includes their business process, with whom they are communicating and what is being communicated. 
     \item \textit{Assumptions about the blockchain infrastructure}: It is assumed that every operation done on the blockchain is public. This includes all data that is being processed on-chain. It is further assumed that a public blockchain is superior to a private one in terms of trust, since it does not require trust in the organisation that runs the network. In addition to that it is the authors oppinion, that a network that employs \quotel  policing nodes\quoter \footnote{Nodes that have the special role of enforcing rules.} is inferior to a network without such nodes, since such a network requires \quotel trust in the authorities\quoter. Another assoumption about the underlying network is, that the communication between nodes is done via a message-based system where the metadata of a message does not contain the address of the message sender.
     \item \textit{Assumptions about the participating entities}: There are several parties which want to collaborate. These parties have neither trust in each other nor  trust in any third party. Since the parties distrust each other they also  only want to share messages with the entities that have to see them and keep them secret from the others.
     It is furthermore assumed, that each party  is  \quotel  honest-but-curious\quoter  \footnote{Definition honest-but-curious:  \quotel The honest-but-curious (HBC) adversary is a legitimate participant in a communication protocol who will not deviate from the defined protocol but will attempt to learn all possible information from legitimately received messages.\quoter  \cite{paverd2014modelling}}.
+    \item \textit{Assumption about the Model}: It is assumed that it is possible to represent any given business process with a stat-machine. The way this business process is represented and the process of converting is out of the scope of this paper.
 \end{itemize}
 
 
-\comment{
-\bigbreak
-\textbf{Assumptions about the participating entities}: There are several parties which want to collaborate (\ber{a}). These parties have neither trust in each other (\ber{b}) nor  trust in any third party (\ber{c}). They furthermore want to keep their business processes secret (\ber{d}),  hide with whom they are collaborating (\ber{e}) and  hide what is being communicated during the collaboration (\ber{f}). Since the parties distrust each other they also  only want to share messages with the entities that have to see them and keep them secret from the others (\ber{g}). Each party  is  \quotel  honest-but-curious\quoter  \footnote{Definition honest-but-curious:  \quotel The honest-but-curious (HBC) adversary is a legitimate participant in a communication protocol who will not deviate from the defined protocol but will attempt to learn all possible information from legitimately received messages.\quoter  \cite{paverd2014modelling}}(\ber{h}). These assumptions justify the aim to keep all levels mentioned in \refsec{subsec:levels} private. To be more specific, \ber{d} requires a private \ber{Model Level}, \ber{e} a private \ber{Communication Level} and \ber{f} a private  \ber{Content Level}.
 
-\bigbreak
-\textbf{Further assumptions:}
-All data that is processed on the blockchain is considered public (\ber{i}). It is possible to convert a business process into a program or state-machine in order for parties to determine the validity of a state change (\ber{j}). The process of converting a business process into a program or state-machine is out of the scope of this paper. In our opinion a public blockchain is superior to a private one in terms of trust, since it does not require trust in the organisation that runs the network (\ber{k}). We furthermore believe that a network that employs \quotel  policing nodes\quoter \footnote{Nodes that have the special role of enforcing rules.} is inferior to a network without such nodes, since such a network requires \quotel trust in the authorities\quoter (\ber{l}). Communication between nodes is done on a message based system where the metadata of a message does not contain the address of the message sender (\ber{m}).
-}
 
 \begin{center}
 \begin{figure}
@@ -191,7 +185,7 @@ This chapter is discussing the proposed schema. This is done by introducing mech
 
 
 \bigbreak
-\textbf{Protecting the Model Layer.} Since all communication and all code executed on the blockchain is considered to be public  (assumption \ber{i}), the logic and execution is done off-chain. This is in order to keep the \ber{Model Layer} secret (assumption \ber{d}). The representation of the business process is shared amongst all entities. This could be a graph or executable code (assumption \ber{j}). This representation should vary in detail, hiding the details of the process that are out of the own circle. How this representation looks like exactly and how it is shared is out of scope of this paper.
+\textbf{Protecting the Model Layer.} Since all communication and all code executed on the blockchain is considered to be public  (\textit{Assumptions about the blockchain infrastructure}), the logic and execution is done off-chain. This is in order to keep the \ber{Model Layer} secret (\textit{Assumption about the visibility levels}). The representation of the business process is shared amongst all entities. This could be a graph or executable code (\texttt{Assumption about the Model}). This representation should vary in detail, hiding the details of the process that are out of the own circle. How this representation looks like exactly and how it is shared is out of scope of this paper.
 
 
 \bigbreak
@@ -272,7 +266,7 @@ There are a number of shortcomings in the approach that was introduced in \refse
 
 
 \bigbreak
-\textbf{Knowledge of progress within the consensus mechanism.} During the consensus mechanism every entity is adding their signature to the message which is passed around. Because the sc has to know all public keys in order to verify messages, the number of participants is known to all entities. Every node who receives this message will therefore be aware of how important their consent it (premise \ber{h}). This knowledge might be abused and should be avoided.
+\textbf{Knowledge of progress within the consensus mechanism.} During the consensus mechanism every entity is adding their signature to the message which is passed around. Because the sc has to know all public keys in order to verify messages, the number of participants is known to all entities. Every node who receives this message will therefore be aware of how important their consent it (\textit{assumption about the participating entities}). This knowledge might be abused and should be avoided.
 
 
 \bigbreak
@@ -284,7 +278,7 @@ There are a number of shortcomings in the approach that was introduced in \refse
 
 
 \bigbreak
-\textbf{Spam.} If assumption \ber{m} holds and the nodes indeed do not know who the originator of a message is, this opens the door for spam messages. An outsider could send a message, encrypted with an unknown key to a member of the ring. That member would pass the message along, assuming that he can not read it because he is not part of the same circle as the originator of the message. So would all other nodes in the ring and the message would be verified by the sc and stored on the blockchain. Depending on which blockchain is used, storing data on it might be expensive. An outsider might therefore be able to increase the price of the business process execution. This should be avoided! A possible solution to this might be to have all nodes create a second key-pair and to only exchange those public keys within the ring. These public keys might then be used to create a ring signature \cite{rivest2001leak}, which would prove that the originator of a message is indeed part of the ring. The \quotel original\quoter  public keys could not be used for this task, since they are encoded in the sc and are therefore public knowledge (\textit{assumption about the blockchain infrastructure}).
+\textbf{Spam.} If the \textit{assumptions about the blockchain infrastructure} hold and the nodes indeed do not know who the originator of a message is, this opens the door for spam messages. An outsider could send a message, encrypted with an unknown key to a member of the ring. That member would pass the message along, assuming that he can not read it because he is not part of the same circle as the originator of the message. So would all other nodes in the ring and the message would be verified by the sc and stored on the blockchain. Depending on which blockchain is used, storing data on it might be expensive. An outsider might therefore be able to increase the price of the business process execution. This should be avoided! A possible solution to this might be to have all nodes create a second key-pair and to only exchange those public keys within the ring. These public keys might then be used to create a ring signature \cite{rivest2001leak}, which would prove that the originator of a message is indeed part of the ring. The \quotel original\quoter  public keys could not be used for this task, since they are encoded in the sc and are therefore public knowledge (\textit{assumption about the blockchain infrastructure}).
 
 
 

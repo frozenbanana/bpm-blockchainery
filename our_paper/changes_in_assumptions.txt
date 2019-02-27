@@ -1,0 +1,30 @@
+
+
+j)      convert bpmn to state-machine -> Assumption about the Model
+
+13  ->  8
+
+d), e), f) -> Assumption about the visibility levels
+i), k), l), m) -> Assumptions about the blockchain infrastructure
+a), b), c), g), h) -> Assumptions about the participating entities 
+
+
+
+done: 
+d)      process secret
+e)      hide with whome they want to collaborate
+f)      hide what is being collaborated
+
+
+i)      blockchain is public
+k)      public superior to private blockchain
+l)      policing nodes
+m)      metadata of message does not contain address of sender or receiver
+
+a)      several parties want to collaborate
+b)      do not trust each other
+c)      no trust in third party
+g)      secret from each other
+h)      honest but curious
+
+
